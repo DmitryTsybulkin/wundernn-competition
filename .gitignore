@@ -1,0 +1,34 @@
+# Datasets — 29 GB train, 5.6 GB valid, subsets. Never commit.
+datasets/
+*.parquet
+
+# Cached predictions and other large intermediates
+tools/_*.npz
+tools/_*.npy
+*.npy
+
+# Checkpoints: keep the small ones per run, exclude nothing by default,
+# but never commit optimizer-state checkpoints from interrupted runs.
+runs/*/ckpt_latest.pt
+runs/*/wandb/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Secrets — never commit tokens or credentials
+.env
+*.token
+secrets.json
+
+# Local Claude Code state
+.claude/

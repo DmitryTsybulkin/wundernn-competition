@@ -1,0 +1,1 @@
+{'t0': 0.5686074627883106, 't1': 0.5711875609585128, 'weighted_pearson': 0.5698975118734119, 'blocks': 1873, 'eligible_blocks': 1872, 'excluded_blocks': 1, 'selected_rows': 3528273, 'effective_scored_rows': 3527577}

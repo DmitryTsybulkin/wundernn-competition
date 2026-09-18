@@ -1,0 +1,11 @@
+200/1873 sequences, 1532s elapsed
+400/1873 sequences, 2425s elapsed
+600/1873 sequences, 2556s elapsed
+800/1873 sequences, 2689s elapsed
+1000/1873 sequences, 2830s elapsed
+1200/1873 sequences, 2967s elapsed
+1400/1873 sequences, 3109s elapsed
+1600/1873 sequences, 3249s elapsed
+1800/1873 sequences, 3385s elapsed
+MASKED: {'t0': 0.5879125171273903, 't1': 0.6461920608177706, 'weighted_pearson': 0.6170522889725805, 'blocks': 1873, 'blocks_with_scored_rows': 1873, 'selected_rows': 3528273, 'effective_scored_rows': 3528273, 'metric_clip': [-2.0, 2.0], 'metric_specification': 'global_wp', 'aggregation': 'mean of two target-wise global clipped Weighted Pearson correlations over all masked rows'}
+ALL_ROWS: {'t0': 0.42315170887680476, 't1': 0.4571604037044747, 'weighted_pearson': 0.4401560562906397, 'blocks': 1873, 'blocks_with_scored_rows': 1873, 'selected_rows': 37274573, 'effective_scored_rows': 37274573, 'metric_clip': [-2.0, 2.0], 'metric_specification': 'global_wp', 'aggregation': 'mean of two target-wise global clipped Weighted Pearson correlations over all masked rows'}

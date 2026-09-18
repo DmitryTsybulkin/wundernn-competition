@@ -1,0 +1,57 @@
+wandb: Tracking run with wandb version 0.30.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in runs/stage3_full_train/wandb/offline-run-20260914_172818-infdm1r4
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:                  epoch ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁██████████████████████
+wandb:             train/loss ▇▇█▇██▆▆▅▅▅▄▅▃▃▄▂▂▄▃▃▂▃▂▄▂▃▄▁▃▂▃▃▂▃▂▃▁▄▄
+wandb:          train/wp_mean ▁▃▄▅▄▄▅▅▆▆▆▅▆▆▆▇▇▆▇▆▆█▇▇▇▇▇▇▇▆▇▇▇▇▆▇█▇▇█
+wandb:            train/wp_t0 ▁▂▄▃▃▅▅▄▄▅▅▅▅▅▇▅▅▆▅▆▅▆▆▆█▇▆▆▆▆▇▆▆█▆▆▆█▅▆
+wandb:            train/wp_t1 ▁▁▂▃▃▅▆▆▇▅▇▆▆▇▆▇▆▆▄▇█▆▆▇▆▇▆▇▆██▅█▅▇▆▇▆▇▅
+wandb:  valid/eligible_blocks ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: valid/weighted_pearson ██▆▅▃▄▃▄▅▄▄▄▅▄▁▃▃▃▄▄▃▂
+wandb:            valid/wp_t0 ██▆▅▃▄▃▄▄▄▄▄▄▄▁▃▃▄▄▄▃▂
+wandb:            valid/wp_t1 ██▆▅▂▄▃▃▅▄▄▄▅▄▁▃▃▃▄▄▄▂
+wandb: 
+wandb: Run summary:
+wandb:                  epoch 1
+wandb:             train/loss -0.47322
+wandb:          train/wp_mean 0.47322
+wandb:            train/wp_t0 0.46414
+wandb:            train/wp_t1 0.48231
+wandb:  valid/eligible_blocks 200
+wandb: valid/weighted_pearson 0.34673
+wandb:            valid/wp_t0 0.34657
+wandb:            valid/wp_t1 0.34689
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync runs/stage3_full_train/wandb/offline-run-20260914_172818-infdm1r4
+wandb: Find logs at: runs/stage3_full_train/wandb/offline-run-20260914_172818-infdm1r4/logs
+model params: 192,258  device: cpu
+train sequences/epoch: 10607  windows/epoch: 1650
+[step 150] loss=-0.3052 valid_wp=0.5662 t0=0.5625 t1=0.5699 eligible=200/200 (313s elapsed)
+  -> new best, saved to runs/stage3_full_train/best.pt
+[step 300] loss=-0.3563 valid_wp=0.5709 t0=0.5603 t1=0.5814 eligible=200/200 (623s elapsed)
+  -> new best, saved to runs/stage3_full_train/best.pt
+[step 450] loss=-0.4183 valid_wp=0.5028 t0=0.4928 t1=0.5129 eligible=200/200 (928s elapsed)
+[step 600] loss=-0.3687 valid_wp=0.4467 t0=0.4423 t1=0.4511 eligible=200/200 (1236s elapsed)
+[step 750] loss=-0.4061 valid_wp=0.3659 t0=0.3614 t1=0.3704 eligible=200/200 (1540s elapsed)
+[step 900] loss=-0.4477 valid_wp=0.4045 t0=0.3927 t1=0.4162 eligible=200/200 (1859s elapsed)
+[step 1050] loss=-0.4389 valid_wp=0.3878 t0=0.3758 t1=0.3998 eligible=200/200 (2177s elapsed)
+[step 1200] loss=-0.4179 valid_wp=0.4076 t0=0.4140 t1=0.4012 eligible=200/200 (2494s elapsed)
+[step 1350] loss=-0.4625 valid_wp=0.4433 t0=0.4234 t1=0.4632 eligible=200/200 (2808s elapsed)
+[step 1500] loss=-0.4536 valid_wp=0.4238 t0=0.4161 t1=0.4315 eligible=200/200 (3128s elapsed)
+[step 1650] loss=-0.3794 valid_wp=0.4290 t0=0.4258 t1=0.4322 eligible=200/200 (3444s elapsed)
+[step 1800] loss=-0.5404 valid_wp=0.4056 t0=0.4008 t1=0.4104 eligible=200/200 (3757s elapsed)
+[step 1950] loss=-0.4715 valid_wp=0.4435 t0=0.4257 t1=0.4613 eligible=200/200 (4074s elapsed)
+[step 2100] loss=-0.4211 valid_wp=0.4241 t0=0.4259 t1=0.4223 eligible=200/200 (4382s elapsed)
+[step 2250] loss=-0.4251 valid_wp=0.3054 t0=0.2957 t1=0.3152 eligible=200/200 (4694s elapsed)
+[step 2400] loss=-0.5246 valid_wp=0.3678 t0=0.3621 t1=0.3735 eligible=200/200 (5008s elapsed)
+[step 2550] loss=-0.5144 valid_wp=0.3818 t0=0.3773 t1=0.3862 eligible=200/200 (5332s elapsed)
+[step 2700] loss=-0.5029 valid_wp=0.3956 t0=0.3955 t1=0.3958 eligible=200/200 (5656s elapsed)
+[step 2850] loss=-0.5205 valid_wp=0.4156 t0=0.4005 t1=0.4307 eligible=200/200 (5972s elapsed)
+[step 3000] loss=-0.4681 valid_wp=0.4334 t0=0.4188 t1=0.4480 eligible=200/200 (6295s elapsed)
+[step 3150] loss=-0.5077 valid_wp=0.3894 t0=0.3659 t1=0.4129 eligible=200/200 (6614s elapsed)
+[step 3300] loss=-0.4732 valid_wp=0.3467 t0=0.3466 t1=0.3469 eligible=200/200 (6934s elapsed)
+done. best valid weighted_pearson (on 200 sequences): 0.5709

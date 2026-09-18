@@ -1,0 +1,69 @@
+
+=== baseline: shared c ===
+  c=1.0   wp_masked=0.617052  (t0=0.587913 t1=0.646192)
+  c=0.8   wp_masked=0.633670  (t0=0.611259 t1=0.656080)
+  c=0.6   wp_masked=0.653650  (t0=0.639643 t1=0.667657)
+  c=0.5   wp_masked=0.663161  (t0=0.653020 t1=0.673301)
+  c=0.45  wp_masked=0.667206  (t0=0.658711 t1=0.675701)
+  c=0.4   wp_masked=0.670452  (t0=0.663374 t1=0.677531)
+  c=0.35  wp_masked=0.672580  (t0=0.666703 t1=0.678457)
+  c=0.3   wp_masked=0.673295  (t0=0.668314 t1=0.678277)  <-- best
+  c=0.25  wp_masked=0.672762  (t0=0.667972 t1=0.677552)
+  c=0.2   wp_masked=0.672520  (t0=0.667715 t1=0.677325)
+
+=== baseline: independent per-target ===
+  t0 grid: c=1.0:0.587913  c=0.8:0.611259  c=0.6:0.639643  c=0.5:0.653020  c=0.45:0.658711  c=0.4:0.663374  c=0.35:0.666703  c=0.3:0.668314  c=0.25:0.667972  c=0.2:0.667715
+  t1 grid: c=1.0:0.646192  c=0.8:0.656080  c=0.6:0.667657  c=0.5:0.673301  c=0.45:0.675701  c=0.4:0.677531  c=0.35:0.678457  c=0.3:0.678277  c=0.25:0.677552  c=0.2:0.677325
+  best c_t0=0.3 (wp=0.668314), best c_t1=0.35 (wp=0.678457)
+  per-target wp_masked=0.673386  vs shared-c best=0.673295  gain=+0.000090
+  t0 neighbourhood: {0.35: 0.6667030142266258, 0.3: 0.6683135888373074, 0.25: 0.6679723832926175}
+  t1 neighbourhood: {0.4: 0.6775306391059341, 0.35: 0.6784574855112527, 0.3: 0.6782772766346667}
+  plateau spread (t0/t1): 0.001611 / 0.000927  vs gain +0.000090  -> PREFER SHARED (gain smaller than local plateau variation)
+
+=== trunk_global_full: shared c ===
+  c=1.0   wp_masked=0.667194  (t0=0.663937 t1=0.670452)  <-- best
+  c=0.8   wp_masked=0.666145  (t0=0.662897 t1=0.669392)
+  c=0.6   wp_masked=0.663854  (t0=0.660792 t1=0.666917)
+  c=0.5   wp_masked=0.663075  (t0=0.660168 t1=0.665983)
+  c=0.45  wp_masked=0.662872  (t0=0.660040 t1=0.665704)
+  c=0.4   wp_masked=0.662698  (t0=0.659969 t1=0.665428)
+  c=0.35  wp_masked=0.662483  (t0=0.659917 t1=0.665049)
+  c=0.3   wp_masked=0.662210  (t0=0.659869 t1=0.664551)
+  c=0.25  wp_masked=0.661984  (t0=0.659830 t1=0.664138)
+  c=0.2   wp_masked=0.661912  (t0=0.659826 t1=0.663999)
+
+=== trunk_global_full: independent per-target ===
+  t0 grid: c=1.0:0.663937  c=0.8:0.662897  c=0.6:0.660792  c=0.5:0.660168  c=0.45:0.660040  c=0.4:0.659969  c=0.35:0.659917  c=0.3:0.659869  c=0.25:0.659830  c=0.2:0.659826
+  t1 grid: c=1.0:0.670452  c=0.8:0.669392  c=0.6:0.666917  c=0.5:0.665983  c=0.45:0.665704  c=0.4:0.665428  c=0.35:0.665049  c=0.3:0.664551  c=0.25:0.664138  c=0.2:0.663999
+  best c_t0=1.0 (wp=0.663937), best c_t1=1.0 (wp=0.670452)
+  per-target wp_masked=0.667194  vs shared-c best=0.667194  gain=+0.000000
+  t0 neighbourhood: {1.0: 0.6639372837368341, 0.8: 0.6628973926181798}
+  t1 neighbourhood: {1.0: 0.6704515621853684, 0.8: 0.6693923222439561}
+  plateau spread (t0/t1): 0.001040 / 0.001059  vs gain +0.000000  -> PREFER SHARED (gain smaller than local plateau variation)
+
+=== ridge_v1: shared c ===
+  c=1.0   wp_masked=0.586440  (t0=0.587475 t1=0.585405)  <-- best
+  c=0.8   wp_masked=0.584624  (t0=0.586350 t1=0.582898)
+  c=0.6   wp_masked=0.582987  (t0=0.585189 t1=0.580784)
+  c=0.5   wp_masked=0.581930  (t0=0.584679 t1=0.579181)
+  c=0.45  wp_masked=0.581253  (t0=0.584476 t1=0.578031)
+  c=0.4   wp_masked=0.580387  (t0=0.584290 t1=0.576483)
+  c=0.35  wp_masked=0.579201  (t0=0.584091 t1=0.574310)
+  c=0.3   wp_masked=0.577579  (t0=0.583875 t1=0.571282)
+  c=0.25  wp_masked=0.576977  (t0=0.583826 t1=0.570129)
+  c=0.2   wp_masked=0.576767  (t0=0.583805 t1=0.569729)
+
+=== ridge_v1: independent per-target ===
+  t0 grid: c=1.0:0.587475  c=0.8:0.586350  c=0.6:0.585189  c=0.5:0.584679  c=0.45:0.584476  c=0.4:0.584290  c=0.35:0.584091  c=0.3:0.583875  c=0.25:0.583826  c=0.2:0.583805
+  t1 grid: c=1.0:0.585405  c=0.8:0.582898  c=0.6:0.580784  c=0.5:0.579181  c=0.45:0.578031  c=0.4:0.576483  c=0.35:0.574310  c=0.3:0.571282  c=0.25:0.570129  c=0.2:0.569729
+  best c_t0=1.0 (wp=0.587475), best c_t1=1.0 (wp=0.585405)
+  per-target wp_masked=0.586440  vs shared-c best=0.586440  gain=+0.000000
+  t0 neighbourhood: {1.0: 0.5874745235959941, 0.8: 0.5863502910690712}
+  t1 neighbourhood: {1.0: 0.5854053808017671, 0.8: 0.5828984729897618}
+  plateau spread (t0/t1): 0.001124 / 0.002507  vs gain +0.000000  -> PREFER SHARED (gain smaller than local plateau variation)
+
+
+=== SUMMARY ===
+baseline: shared c=0.3 wp=0.673295 | per-target c_t0=0.3 c_t1=0.35 wp=0.673386 gain=+0.000090 -> PREFER SHARED (gain smaller than local plateau variation)
+trunk_global_full: shared c=1.0 wp=0.667194 | per-target c_t0=1.0 c_t1=1.0 wp=0.667194 gain=+0.000000 -> PREFER SHARED (gain smaller than local plateau variation)
+ridge_v1: shared c=1.0 wp=0.586440 | per-target c_t0=1.0 c_t1=1.0 wp=0.586440 gain=+0.000000 -> PREFER SHARED (gain smaller than local plateau variation)

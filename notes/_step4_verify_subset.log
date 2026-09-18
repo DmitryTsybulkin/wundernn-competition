@@ -1,0 +1,16 @@
+train_subset.parquet: 2500 sequences (halffloat features)
+accumulated over 2000 fit sequences (9,952,000 rows), 34s
+  lambda=0.01       held-out score=0.331801
+  lambda=0.1        held-out score=0.331801
+  lambda=1          held-out score=0.331801
+  lambda=10         held-out score=0.331800
+  lambda=100        held-out score=0.331786
+  lambda=1000       held-out score=0.331565
+  lambda=10000      held-out score=0.329498
+  lambda=100000     held-out score=0.323111
+chosen lambda=0.01
+refit on all 2500 sequences (12,440,000 rows)
+
+full-validation wp_masked (subset-fit ridge) = 0.586858
+reference (ridge_v1, fit on full-precision train.parquet)         = 0.586440
+difference = +0.000418

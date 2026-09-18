@@ -1,0 +1,23 @@
+200/1873 sequences, 136s elapsed
+400/1873 sequences, 272s elapsed
+600/1873 sequences, 405s elapsed
+800/1873 sequences, 536s elapsed
+1000/1873 sequences, 673s elapsed
+1200/1873 sequences, 809s elapsed
+1400/1873 sequences, 945s elapsed
+1600/1873 sequences, 1084s elapsed
+1800/1873 sequences, 1224s elapsed
+cached raw predictions to /Users/main/Projects/Wundernn/wnn_connectome_starterpack/tools/_baseline_raw_preds_valid.npz (674 MB)
+
+c=1.0 sanity check should match 0.6170522889725805 exactly:
+
+c=1.0   wp_masked=0.617052  wp_all_rows=0.440156  frac|c*pred|>2 (scored)=0.7620
+c=0.8   wp_masked=0.633670  wp_all_rows=0.457143  frac|c*pred|>2 (scored)=0.5835
+c=0.6   wp_masked=0.653650  wp_all_rows=0.477834  frac|c*pred|>2 (scored)=0.4372
+c=0.5   wp_masked=0.663161  wp_all_rows=0.488624  frac|c*pred|>2 (scored)=0.3623
+c=0.45  wp_masked=0.667206  wp_all_rows=0.493580  frac|c*pred|>2 (scored)=0.3119
+c=0.4   wp_masked=0.670452  wp_all_rows=0.497802  frac|c*pred|>2 (scored)=0.2438
+c=0.35  wp_masked=0.672580  wp_all_rows=0.500796  frac|c*pred|>2 (scored)=0.1540
+c=0.3   wp_masked=0.673295  wp_all_rows=0.502117  frac|c*pred|>2 (scored)=0.0561
+c=0.25  wp_masked=0.672762  wp_all_rows=0.502088  frac|c*pred|>2 (scored)=0.0040
+c=0.2   wp_masked=0.672520  wp_all_rows=0.501875  frac|c*pred|>2 (scored)=0.0000

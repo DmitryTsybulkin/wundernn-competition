@@ -1,0 +1,8 @@
+sampling 2500 of 10607 sequences, seed=42
+500/2500 sequences written, 38s elapsed
+1000/2500 sequences written, 76s elapsed
+1500/2500 sequences written, 113s elapsed
+2000/2500 sequences written, 150s elapsed
+2500/2500 sequences written, 190s elapsed
+wrote /Users/main/Projects/Wundernn/wnn_connectome_starterpack/datasets/train_subset.parquet (4918 MB) in 191s
+seed=42, row groups (sequence indices in original file): saved implicitly via seq_ix column

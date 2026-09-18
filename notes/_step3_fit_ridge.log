@@ -1,0 +1,31 @@
+accumulating over 800 fit sequences (stride 4, need_prediction only)...
+  3,980,800 rows, 12s
+sweeping ridge penalty on 200 held-out TRAIN sequences...
+  lambda=0.01       held-out WP-like score=0.330693
+  lambda=0.1        held-out WP-like score=0.330693
+  lambda=1          held-out WP-like score=0.330692
+  lambda=10         held-out WP-like score=0.330685
+  lambda=100        held-out WP-like score=0.330605
+  lambda=1000       held-out WP-like score=0.329626
+  lambda=10000      held-out WP-like score=0.325677
+  lambda=100000     held-out WP-like score=0.319271
+chosen lambda=0.01 (held-out score 0.330693)
+
+refitting on all 1000 sequences at lambda=0.01...
+  4,976,000 rows, 15s
+saved /Users/main/Projects/Wundernn/wnn_connectome_starterpack/models/ridge_v1.npz
+
+scoring on FULL validation set (official GlobalAccumulator, need_prediction & is_scored)...
+  84s
+
+ridge_v1 full-validation results:
+  c=1.0   wp_masked=0.586440  wp_all_rows=0.402877
+  c=0.8   wp_masked=0.584624  wp_all_rows=0.402229
+  c=0.6   wp_masked=0.582987  wp_all_rows=0.401342
+  c=0.5   wp_masked=0.581930  wp_all_rows=0.400708
+  c=0.45  wp_masked=0.581253  wp_all_rows=0.400286
+  c=0.4   wp_masked=0.580387  wp_all_rows=0.399737
+  c=0.35  wp_masked=0.579201  wp_all_rows=0.398976
+  c=0.3   wp_masked=0.577579  wp_all_rows=0.397936
+  c=0.25  wp_masked=0.576977  wp_all_rows=0.397530
+  c=0.2   wp_masked=0.576767  wp_all_rows=0.397457

@@ -1,0 +1,79 @@
+wandb: Tracking run with wandb version 0.30.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in runs/stage7_ema_cosine/wandb/offline-run-20260914_225601-828d9cdf
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:                  epoch ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:             train/loss █▆▅▆▅▆▅▄▄▄▆▄▆▅▄▅▄▄▄▅▃▂▄▄▅▃▃▄▁▃▃▂▃▄▃▂▂▁▄▄
+wandb:               train/lr ██████████▇▇▇▇▆▆▆▆▆▆▅▅▄▄▄▃▃▃▃▃▃▂▂▁▁▁▁▁▁▁
+wandb:          train/wp_mean ▁▄▄▆▆▅▅▅▅▆▅▆▆▇▅▆▆▆▆▆▆▆▆▆▆▇█▇▇▆▇▆▆▆▇▆▆▆▇▇
+wandb:            train/wp_t0 ▇▆▂▂▂▃▃▄▄▃▄▂█▃▁▇▄▆▁▅▅▃▅█▄▅▇▄▅▄█▆▇▇█▆▇▆▅█
+wandb:            train/wp_t1 ▂▃▄▂▆▅▃▄▂▄▅▄▄▄▆▅▆▅▁▃▆▆▄▆▅▇▄▆▅█▆▄▆▆█▇▅▅▆▇
+wandb:  valid/eligible_blocks ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: valid/weighted_pearson ▁▇▇██████████████▇▇▇▇▇▇▇▇▆▆▆▆▆▆▆▆
+wandb:            valid/wp_t0 ▁▇▇▇█████████████▇▇▇▇▇▇▇▆▆▆▆▆▆▆▆▆
+wandb:            valid/wp_t1 ▁▇▇███████████████▇▇▇▇▇▇▇▆▆▆▆▆▆▆▆
+wandb: 
+wandb: Run summary:
+wandb:                  epoch 0
+wandb:             train/loss -0.34483
+wandb:               train/lr 1e-05
+wandb:          train/wp_mean 0.34483
+wandb:            train/wp_t0 0.33986
+wandb:            train/wp_t1 0.34981
+wandb:  valid/eligible_blocks 200
+wandb: valid/weighted_pearson 0.52445
+wandb:            valid/wp_t0 0.52143
+wandb:            valid/wp_t1 0.52748
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync runs/stage7_ema_cosine/wandb/offline-run-20260914_225601-828d9cdf
+wandb: Find logs at: runs/stage7_ema_cosine/wandb/offline-run-20260914_225601-828d9cdf/logs
+model params: 192,258  device: cpu
+train sequences/epoch: 10607  windows/epoch: 1650
+[step 50] loss=-0.2078 lr=2.99e-04 valid_wp=0.3741 t0=0.3861 t1=0.3620 eligible=200/200 (127s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 100] loss=-0.3621 lr=2.97e-04 valid_wp=0.5505 t0=0.5490 t1=0.5519 eligible=200/200 (254s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 150] loss=-0.3044 lr=2.94e-04 valid_wp=0.5651 t0=0.5623 t1=0.5680 eligible=200/200 (384s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 200] loss=-0.2972 lr=2.89e-04 valid_wp=0.5683 t0=0.5650 t1=0.5716 eligible=200/200 (507s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 250] loss=-0.2862 lr=2.84e-04 valid_wp=0.5696 t0=0.5662 t1=0.5730 eligible=200/200 (628s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 300] loss=-0.3403 lr=2.77e-04 valid_wp=0.5734 t0=0.5706 t1=0.5762 eligible=200/200 (749s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 350] loss=-0.3560 lr=2.69e-04 valid_wp=0.5761 t0=0.5733 t1=0.5790 eligible=200/200 (875s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 400] loss=-0.2895 lr=2.59e-04 valid_wp=0.5785 t0=0.5755 t1=0.5815 eligible=200/200 (1014s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 450] loss=-0.3414 lr=2.49e-04 valid_wp=0.5788 t0=0.5744 t1=0.5832 eligible=200/200 (1139s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 500] loss=-0.3269 lr=2.38e-04 valid_wp=0.5820 t0=0.5776 t1=0.5864 eligible=200/200 (1277s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 550] loss=-0.2888 lr=2.26e-04 valid_wp=0.5813 t0=0.5775 t1=0.5851 eligible=200/200 (1537s elapsed)
+[step 600] loss=-0.3395 lr=2.14e-04 valid_wp=0.5828 t0=0.5788 t1=0.5868 eligible=200/200 (3256s elapsed)
+  -> new best, saved to runs/stage7_ema_cosine/best.pt
+[step 650] loss=-0.2684 lr=2.01e-04 valid_wp=0.5815 t0=0.5771 t1=0.5859 eligible=200/200 (4097s elapsed)
+[step 700] loss=-0.3081 lr=1.88e-04 valid_wp=0.5806 t0=0.5769 t1=0.5844 eligible=200/200 (4233s elapsed)
+[step 750] loss=-0.3384 lr=1.74e-04 valid_wp=0.5790 t0=0.5745 t1=0.5836 eligible=200/200 (4360s elapsed)
+[step 800] loss=-0.3784 lr=1.60e-04 valid_wp=0.5776 t0=0.5729 t1=0.5822 eligible=200/200 (4496s elapsed)
+[step 850] loss=-0.3487 lr=1.46e-04 valid_wp=0.5709 t0=0.5657 t1=0.5762 eligible=200/200 (4633s elapsed)
+[step 900] loss=-0.3707 lr=1.32e-04 valid_wp=0.5659 t0=0.5608 t1=0.5711 eligible=200/200 (4766s elapsed)
+[step 950] loss=-0.2924 lr=1.18e-04 valid_wp=0.5608 t0=0.5558 t1=0.5659 eligible=200/200 (4901s elapsed)
+[step 1000] loss=-0.3290 lr=1.05e-04 valid_wp=0.5561 t0=0.5516 t1=0.5605 eligible=200/200 (5031s elapsed)
+[step 1050] loss=-0.3483 lr=9.19e-05 valid_wp=0.5522 t0=0.5471 t1=0.5573 eligible=200/200 (5156s elapsed)
+[step 1100] loss=-0.3799 lr=7.95e-05 valid_wp=0.5523 t0=0.5469 t1=0.5576 eligible=200/200 (5298s elapsed)
+[step 1150] loss=-0.3665 lr=6.77e-05 valid_wp=0.5473 t0=0.5435 t1=0.5512 eligible=200/200 (5427s elapsed)
+[step 1200] loss=-0.3144 lr=5.67e-05 valid_wp=0.5452 t0=0.5417 t1=0.5487 eligible=200/200 (5565s elapsed)
+[step 1250] loss=-0.3393 lr=4.66e-05 valid_wp=0.5384 t0=0.5350 t1=0.5419 eligible=200/200 (5695s elapsed)
+[step 1300] loss=-0.3585 lr=3.75e-05 valid_wp=0.5327 t0=0.5293 t1=0.5362 eligible=200/200 (5835s elapsed)
+[step 1350] loss=-0.3876 lr=2.93e-05 valid_wp=0.5300 t0=0.5264 t1=0.5336 eligible=200/200 (5977s elapsed)
+[step 1400] loss=-0.3787 lr=2.23e-05 valid_wp=0.5291 t0=0.5255 t1=0.5327 eligible=200/200 (6116s elapsed)
+[step 1450] loss=-0.3887 lr=1.65e-05 valid_wp=0.5278 t0=0.5249 t1=0.5306 eligible=200/200 (6270s elapsed)
+[step 1500] loss=-0.3822 lr=1.20e-05 valid_wp=0.5252 t0=0.5223 t1=0.5281 eligible=200/200 (6418s elapsed)
+[step 1550] loss=-0.3904 lr=8.66e-06 valid_wp=0.5250 t0=0.5222 t1=0.5278 eligible=200/200 (6545s elapsed)
+[step 1600] loss=-0.3341 lr=6.67e-06 valid_wp=0.5249 t0=0.5220 t1=0.5278 eligible=200/200 (6683s elapsed)
+[step 1650] loss=-0.3448 lr=6.00e-06 valid_wp=0.5245 t0=0.5214 t1=0.5275 eligible=200/200 (6833s elapsed)
+done. best valid weighted_pearson (on 200 sequences): 0.5828

@@ -1,0 +1,33 @@
+prediction-stream correlation (calibrated, scored rows): t0=0.9607  t1=0.9602
+-> highly correlated (>0.95 both targets): little room for ensembling to help.
+
+=== shared-a blend: a*baseline + (1-a)*trunk_global_full ===
+  a=0.0  wp_masked=0.667194
+  a=0.1  wp_masked=0.668719
+  a=0.2  wp_masked=0.670190
+  a=0.3  wp_masked=0.671582
+  a=0.4  wp_masked=0.672841
+  a=0.5  wp_masked=0.673892
+  a=0.6  wp_masked=0.674645
+  a=0.7  wp_masked=0.675001
+  a=0.8  wp_masked=0.674865
+  a=0.9  wp_masked=0.674105
+  a=1.0  wp_masked=0.672580
+  best a=0.7 wp_masked=0.675001
+
+=== per-target-a blend: a_t0, a_t1 chosen independently ===
+  t0 grid: a=0.0:0.663937  a=0.1:0.665412  a=0.2:0.666803  a=0.3:0.668095  a=0.4:0.669221  a=0.5:0.670079  a=0.6:0.670566  a=0.7:0.670588  a=0.8:0.670037  a=0.9:0.668787  a=1.0:0.666703
+  t1 grid: a=0.0:0.670452  a=0.1:0.672026  a=0.2:0.673577  a=0.3:0.675070  a=0.4:0.676460  a=0.5:0.677706  a=0.6:0.678724  a=0.7:0.679415  a=0.8:0.679692  a=0.9:0.679423  a=1.0:0.678457
+  best a_t0=0.7 (wp=0.670588), best a_t1=0.8 (wp=0.679692)
+  per-target-a wp_masked=0.675140
+
+solo scores (post-calibration): baseline=0.672580  trunk_global_full=0.667194
+best ensemble=0.675140  best solo component=0.672580  gain=+0.002560
+
+=== adding ridge_v1 as a small third component ===
+  ridge_weight=0.00  wp_masked=0.675140
+  ridge_weight=0.05  wp_masked=0.675394
+  ridge_weight=0.10  wp_masked=0.675395
+  ridge_weight=0.15  wp_masked=0.675110
+  ridge_weight=0.20  wp_masked=0.674506
+  ridge_weight=0.30  wp_masked=0.672232

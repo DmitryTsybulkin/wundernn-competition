@@ -1,0 +1,38 @@
+{
+  "model_config": {
+    "n_features": 112,
+    "trunk_hidden": [
+      256,
+      128
+    ],
+    "trunk_activation": "relu",
+    "gru_hidden": 128,
+    "gru_layers": 2,
+    "reparam": false,
+    "dropout": 0.0,
+    "use_skip": true
+  },
+  "n_params": 260452,
+  "train_args": {
+    "trunk_hidden": [
+      256,
+      128
+    ],
+    "loss_mode": "global",
+    "use_skip": true,
+    "skip_init": "ridge",
+    "skip_init_path": "models/ridge_v1.npz",
+    "gru_hidden": 128,
+    "gru_layers": 2,
+    "batch_size": 64,
+    "chunk_len": 2000,
+    "epochs": 4,
+    "early_stop_patience": 5,
+    "max_seconds": 5400,
+    "valid_every_windows": 200,
+    "valid_sequences": 400,
+    "calibrate_sequences": 400,
+    "lr": 0.0003,
+    "ema_decay": 0.98
+  }
+}

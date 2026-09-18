@@ -1,0 +1,64 @@
+wandb: Tracking run with wandb version 0.30.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in runs/stage5_ema_diag/wandb/offline-run-20260914_200822-wcvo89c8
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:                  epoch ▁▁▁▁▁▁▁▁▁▁▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅███████████████
+wandb:             train/loss █▃▆▅█▇▇▆▄▅▂▅▅▃▃▆▃▇▇▆▆▄▄▅▄▄▄▄▅▃▂▁▄▁▂▁▃▁▂▂
+wandb:               train/lr ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:          train/wp_mean ▂▁▄▄▅▆▆▇▅▅▆▅▇▆▅▆▆▇▆▆▆▅▄▆▇▆▆▇▆█▇█▇▇▇▇▇███
+wandb:            train/wp_t0 ▁▂▄▄▃▄▆▆▅▄▆▅▅▆▆▆▅▆▆▆▆▅▅▆▆▆▆▆▇▆▆▇▆▇▇▇▆█▇█
+wandb:            train/wp_t1 ▁▄▄▄▆▆▅▆▆▆▇▇▅▆▅▇▆▇▆▇▆▅▆▆▇▅▇▇▆▆▇▆▆▆▆▆▆███
+wandb:  valid/eligible_blocks ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: valid/weighted_pearson ▁▇▇▇██████████▇▆▅▄
+wandb:            valid/wp_t0 ▁▇▇▇██████████▇▇▅▄
+wandb:            valid/wp_t1 ▁▇▇▇▇█████████▇▆▅▄
+wandb: 
+wandb: Run summary:
+wandb:                  epoch 2
+wandb:             train/loss -0.38235
+wandb:               train/lr 0.0003
+wandb:          train/wp_mean 0.38235
+wandb:            train/wp_t0 0.37076
+wandb:            train/wp_t1 0.39394
+wandb:  valid/eligible_blocks 200
+wandb: valid/weighted_pearson 0.46375
+wandb:            valid/wp_t0 0.46148
+wandb:            valid/wp_t1 0.46603
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync runs/stage5_ema_diag/wandb/offline-run-20260914_200822-wcvo89c8
+wandb: Find logs at: runs/stage5_ema_diag/wandb/offline-run-20260914_200822-wcvo89c8/logs
+model params: 192,258  device: cpu
+train sequences/epoch: 2000  windows/epoch: 310
+[step 50] loss=-0.2423 lr=3.00e-04 valid_wp=0.3725 t0=0.3604 t1=0.3846 eligible=200/200 (125s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 100] loss=-0.2825 lr=3.00e-04 valid_wp=0.5467 t0=0.5452 t1=0.5482 eligible=200/200 (259s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 150] loss=-0.3665 lr=3.00e-04 valid_wp=0.5650 t0=0.5623 t1=0.5676 eligible=200/200 (387s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 200] loss=-0.2491 lr=3.00e-04 valid_wp=0.5659 t0=0.5633 t1=0.5685 eligible=200/200 (515s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 250] loss=-0.2594 lr=3.00e-04 valid_wp=0.5712 t0=0.5680 t1=0.5745 eligible=200/200 (645s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 300] loss=-0.3175 lr=3.00e-04 valid_wp=0.5744 t0=0.5722 t1=0.5767 eligible=200/200 (771s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 350] loss=-0.3089 lr=3.00e-04 valid_wp=0.5763 t0=0.5734 t1=0.5791 eligible=200/200 (906s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 400] loss=-0.2903 lr=3.00e-04 valid_wp=0.5792 t0=0.5760 t1=0.5824 eligible=200/200 (1034s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 450] loss=-0.3174 lr=3.00e-04 valid_wp=0.5807 t0=0.5765 t1=0.5849 eligible=200/200 (1159s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 500] loss=-0.3277 lr=3.00e-04 valid_wp=0.5820 t0=0.5776 t1=0.5864 eligible=200/200 (1290s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 550] loss=-0.3335 lr=3.00e-04 valid_wp=0.5848 t0=0.5797 t1=0.5899 eligible=200/200 (1423s elapsed)
+  -> new best, saved to runs/stage5_ema_diag/best.pt
+[step 600] loss=-0.3438 lr=3.00e-04 valid_wp=0.5822 t0=0.5778 t1=0.5865 eligible=200/200 (1555s elapsed)
+[step 650] loss=-0.3206 lr=3.00e-04 valid_wp=0.5803 t0=0.5754 t1=0.5852 eligible=200/200 (1690s elapsed)
+[step 700] loss=-0.3669 lr=3.00e-04 valid_wp=0.5755 t0=0.5721 t1=0.5788 eligible=200/200 (1823s elapsed)
+[step 750] loss=-0.3153 lr=3.00e-04 valid_wp=0.5617 t0=0.5577 t1=0.5656 eligible=200/200 (1958s elapsed)
+[step 800] loss=-0.4014 lr=3.00e-04 valid_wp=0.5349 t0=0.5335 t1=0.5363 eligible=200/200 (2087s elapsed)
+[step 850] loss=-0.3863 lr=3.00e-04 valid_wp=0.4909 t0=0.4887 t1=0.4930 eligible=200/200 (2223s elapsed)
+[step 900] loss=-0.3779 lr=3.00e-04 valid_wp=0.4638 t0=0.4615 t1=0.4660 eligible=200/200 (2357s elapsed)
+done. best valid weighted_pearson (on 200 sequences): 0.5848

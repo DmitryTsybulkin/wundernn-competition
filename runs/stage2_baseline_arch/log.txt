@@ -1,0 +1,43 @@
+wandb: Tracking run with wandb version 0.30.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in runs/stage2_baseline_arch/wandb/offline-run-20260914_160040-ldub7yl2
+wandb: View this run in the terminal with `wandb leet`
+wandb: 
+wandb: Run history:
+wandb:                  epoch ▁▁▁▁▁▁▁▁▁▁▃▃▃▃▃▃▆▆▆▆▆▆▆▆▆▆▆▆████████████
+wandb:             train/loss █▆▆▆▆▅▅▅▄▅▄▄▄▃▄▄▄▄▃▄▃▄▂▄▃▃▃▂▂▂▂▂▂▂▃▃▃▂▂▁
+wandb:          train/wp_mean ▁▂▂▃▃▃▄▄▄▄▅▃▄▅▅▄▄▄▅▄▅▆▅▅▅▅▇▅▆▆▄▆▆▇█▆▆▄▅▆
+wandb:            train/wp_t0 ▁▂▂▂▃▃▃▃▄▃▆▅▆█▅▄▅▅▇▇▅█▇▆▇▇▆▆█▇█▇▅▆▇▆███▇
+wandb:            train/wp_t1 ▁▃▃▄▄▅▄▄▆▅▄▄▅▆▅▆▅▇▆▅▇▅▇▇▆▇▅▆▇▆█▇▆▇▆▇▇▆▆▇
+wandb:  valid/eligible_blocks ▁▁▁▁▁▁▁▁▁
+wandb: valid/weighted_pearson █▃▄▅▁▂▃▁▁
+wandb:            valid/wp_t0 █▄▄▆▁▂▃▂▂
+wandb:            valid/wp_t1 █▃▅▅▁▂▃▁▁
+wandb: 
+wandb: Run summary:
+wandb:                  epoch 3
+wandb:             train/loss -0.53441
+wandb:          train/wp_mean 0.53441
+wandb:            train/wp_t0 0.56372
+wandb:            train/wp_t1 0.5051
+wandb:  valid/eligible_blocks 200
+wandb: valid/weighted_pearson 0.34304
+wandb:            valid/wp_t0 0.34603
+wandb:            valid/wp_t1 0.34006
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync runs/stage2_baseline_arch/wandb/offline-run-20260914_160040-ldub7yl2
+wandb: Find logs at: runs/stage2_baseline_arch/wandb/offline-run-20260914_160040-ldub7yl2/logs
+model params: 192,258  device: cpu
+train sequences/epoch: 3000  windows/epoch: 460
+[step 200] loss=-0.3565 valid_wp=0.5651 t0=0.5636 t1=0.5666 eligible=200/200 (417s elapsed)
+  -> new best, saved to runs/stage2_baseline_arch/best.pt
+[step 400] loss=-0.3745 valid_wp=0.4149 t0=0.4155 t1=0.4143 eligible=200/200 (845s elapsed)
+[step 600] loss=-0.3916 valid_wp=0.4461 t0=0.4381 t1=0.4542 eligible=200/200 (1272s elapsed)
+[step 800] loss=-0.4471 valid_wp=0.4803 t0=0.4752 t1=0.4853 eligible=200/200 (1696s elapsed)
+[step 1000] loss=-0.4580 valid_wp=0.3351 t0=0.3148 t1=0.3555 eligible=200/200 (2117s elapsed)
+[step 1200] loss=-0.4248 valid_wp=0.3678 t0=0.3676 t1=0.3680 eligible=200/200 (2562s elapsed)
+[step 1400] loss=-0.4551 valid_wp=0.3860 t0=0.3827 t1=0.3894 eligible=200/200 (2994s elapsed)
+[step 1600] loss=-0.4763 valid_wp=0.3449 t0=0.3459 t1=0.3440 eligible=200/200 (3401s elapsed)
+[step 1800] loss=-0.5480 valid_wp=0.3430 t0=0.3460 t1=0.3401 eligible=200/200 (3813s elapsed)
+done. best valid weighted_pearson (on 200 sequences): 0.5651

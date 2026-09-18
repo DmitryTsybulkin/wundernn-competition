@@ -1,0 +1,5 @@
+baseline cache: exists, reused (674 MB)
+forward pass over 1873 sequences: 346s
+cached to /Users/main/Projects/Wundernn/wnn_connectome_starterpack/tools/_trunk_global_full_raw_preds_valid.npz (674 MB)
+matmul pass over 1873 sequences: 67s
+cached to /Users/main/Projects/Wundernn/wnn_connectome_starterpack/tools/_ridge_v1_raw_preds_valid.npz (674 MB)
