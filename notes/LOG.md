@@ -658,3 +658,72 @@ submitted as one**, per the 2026-09-18 leaderboard-rules entry above (its
 predicted leaderboard score sits below the already-achieved 0.6501). The
 ensemble was tested and correctly rejected for being under the packaging
 threshold, not created.
+
+## 2026-09-19 — Cowork probe: LightGBM as a decorrelated ensemble member — REJECTED
+Motivation: the ensemble failed because our GRU and the baseline correlate at
+0.96. A structurally different model might decorrelate. Tested LightGBM
+(400 rounds, 63 leaves, lr 0.05, metric weights), trained on the same 60
+training sequences used for the ridge probes, evaluated on 30 validation
+sequences.
+
+| model | Global WP (30-seq sample) |
+|---|---:|
+| baseline x0.35 | 0.7135 |
+| LightGBM | 0.6086 |
+| ridge | 0.6054 |
+
+Prediction correlations with the calibrated baseline, on scored rows:
+| | t0 | t1 |
+|---|---:|---:|
+| GBDT vs baseline | 0.8124 | 0.7555 |
+| ridge vs baseline | 0.8526 | 0.7636 |
+| GBDT vs ridge | 0.8551 | 0.8346 |
+
+Blends: best is 0.9*baseline + 0.1*GBDT = 0.7148 vs 0.7138 pure baseline,
+**+0.0010** — noise.
+
+**Two conclusions.**
+1. **Nonlinearity buys almost nothing pointwise.** GBDT beats the ridge by only
+   +0.003 despite being able to model arbitrary interactions of the 112
+   features. Consistent with the earlier random-ReLU-feature result. The
+   remaining signal is not a nonlinearity the ridge is missing.
+2. **Decorrelation without strength is worthless.** GBDT does correlate much
+   less with the baseline (0.76-0.81) than our GRU does (0.96) — but that
+   decorrelation comes precisely from lacking the recurrent component, i.e.
+   from being weaker, not from seeing something new. A 0.10 weight in a blend
+   contributes +0.001.
+
+**Direction closed.** Do not spend a Claude Code session on GBDT. Caveat: this
+was a 60-sequence probe; a GBDT fitted on 1,000+ sequences would score higher,
+but it would have to reach roughly GRU level (~0.667 full-valid) to matter in a
+blend, and it starts ~0.06 below the ridge-to-GRU gap.
+
+### Also ruled out on execution-budget grounds (no experiment needed)
+- **kNN regression**: requires storing the training set and a neighbour search
+  per row — cannot fit 20 MB, cannot meet ~91 us/row, and has no state.
+- **Kernel SVM**: prediction is a sum over tens of thousands of support
+  vectors. Same wall.
+- **Linear SVM**: mathematically close to the ridge with a different loss; the
+  linear ceiling is already measured at 0.586.
+- **Time-series foundation models** (Chronos, TimesFM, Moirai): almost certainly
+  pretrained on market data, which the rules forbid; univariate; and orders of
+  magnitude over the per-row compute budget.
+- **LSTM instead of GRU**: same family, ~30% more parameters for the same
+  budget; at best noise-level difference.
+
+### Still open, testable on CPU
+**Dilated causal convolutions** with a ring buffer. Unlike a GRU, convolutions
+have no sequential dependency during training, so they train *faster* on CPU,
+not slower — this is a genuinely cheap experiment that does not need the GPU.
+Per-row inference is O(receptive field) with a fixed buffer, which fits the
+online contract. Worth a task once the GPU run is underway.
+
+## 2026-09-19 — repository initialised
+`git init` in the project root, `.gitignore` excluding `datasets/`, all
+parquet, cached prediction arrays, `runs/*/ckpt_latest.pt`, `runs/*/wandb/`,
+secrets and `.claude/`. First commit: 100 files, ~18.9 MB (mostly the small
+`.pt` checkpoints and ONNX submission artifacts). Remote set to
+`git@github.com:DmitryTsybulkin/wundernn-competition.git`, branch `main`.
+Push from the sandbox fails with `Host key verification failed` (no SSH agent
+or known_hosts there) — **Dmitry pushes from his own terminal**:
+`cd <repo> && git push -u origin main`.
