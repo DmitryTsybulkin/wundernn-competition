@@ -11,9 +11,11 @@ channel between them. Keep it accurate — the other side has no other context.
 - `notes/STATUS.md` — current state of the world: metric, best scores, known
   facts, known defects. **Overwrite** the parts that changed. Keep it short
   enough to read in full at the start of a session.
-- `notes/TASK.md` — what to do right now. Written by the Cowork side.
-  **Do not edit it** except to tick items off; it is replaced wholesale for the
-  next task.
+- `notes/TASK.md` — what to do right now, and the ONLY task to execute unless
+  told otherwise. Written by the Cowork side. **Do not edit it** except to tick
+  items off; it is replaced wholesale for the next task.
+- `notes/TASK_*.md` — queued tasks, written ahead of time. **Do not start
+  one** unless the user names it explicitly.
 - `notes/LOG.md` — **append-only**, newest at the bottom. One block per run or
   investigation: what was run, the exact command, the numbers, the conclusion.
   Never rewrite history here.
@@ -34,6 +36,21 @@ Each run writes `runs/<name>/` containing at minimum:
   step at which it peaked, wall clock, and one sentence on what was learned.
 
 Name runs `<NN>_<short_slug>`, numbered sequentially.
+
+## Colab runs and git — who writes what
+Training on Google Colab commits back to the same GitHub repo. To make merge
+conflicts impossible by construction:
+- **Colab writes ONLY new files under `runs/<its own run name>/`.** It never
+  edits `notes/`, `train/`, `tools/` or any other existing file.
+- **`notes/` is written only by local sessions** (Claude Code on the Mac, or the
+  Cowork side). After a Colab run finishes, a local session does `git pull`,
+  evaluates the run on the full validation set, and only then records it in
+  `notes/LOG.md` / `notes/STATUS.md`.
+- The notebook does `git pull --rebase` before pushing; because it only adds
+  files in a directory nobody else touches, the rebase cannot conflict. If a
+  push still fails, the run is safe on the Drive mirror — do not force-push.
+- Commit and push local changes to `train/` and `colab/` BEFORE starting a Colab
+  run: the Colab clone only sees what is on GitHub.
 
 ## Hard rules
 - Never compare a number produced by a different metric version. If in doubt,

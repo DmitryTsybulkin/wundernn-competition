@@ -57,6 +57,32 @@ def cache_trunk_global_full(force: bool = False):
     return TRUNK_CACHE
 
 
+def cache_checkpoint(ckpt_path: Path, out_path: Path, force: bool = False):
+    """Generic version of cache_trunk_global_full: any SequenceModel checkpoint (GRU or TCN)."""
+    if out_path.exists() and not force:
+        print(f"using cached predictions at {out_path}")
+        return out_path
+
+    ckpt = torch.load(ckpt_path, map_location="cpu", weights_only=False)
+    model = SequenceModel(ckpt["model_cfg"])
+    model.load_state_dict(ckpt["state_dict"])
+    model.eval()
+
+    pf = pq.ParquetFile(VALID_PATH)
+    n = pf.num_row_groups
+    t0 = time.time()
+    cached = _forward_all(model, pf, np.arange(n), torch.device("cpu"), batch_size=32)
+    print(f"forward pass over {n} sequences ({ckpt_path}): {time.time()-t0:.0f}s", flush=True)
+
+    np.savez(
+        out_path,
+        preds=np.stack([c[3] for c in cached]), targets=np.stack([c[0] for c in cached]),
+        need=np.stack([c[1] for c in cached]), scored=np.stack([c[2] for c in cached]),
+    )
+    print(f"cached to {out_path} ({out_path.stat().st_size / 1e6:.0f} MB)", flush=True)
+    return out_path
+
+
 def cache_ridge_v1(force: bool = False):
     if RIDGE_CACHE.exists() and not force:
         print(f"using cached predictions at {RIDGE_CACHE}")
@@ -93,7 +119,10 @@ def cache_ridge_v1(force: bool = False):
     return RIDGE_CACHE
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "--checkpoint":
+    # usage: python3 tools/predict_cache.py --checkpoint runs/X/best.pt tools/_name_raw_preds_valid.npz
+    cache_checkpoint(ROOT / sys.argv[2], ROOT / sys.argv[3])
+elif __name__ == "__main__":
     print(f"baseline cache: {'exists, reused' if BASELINE_CACHE.exists() else 'MISSING'} "
           f"({BASELINE_CACHE.stat().st_size / 1e6:.0f} MB)" if BASELINE_CACHE.exists() else "baseline cache MISSING")
     cache_trunk_global_full()

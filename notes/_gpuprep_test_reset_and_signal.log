@@ -1,0 +1,17 @@
+=== (a) SIGTERM mid-run ===
+[ckpt] step 10 epoch 0 -> /private/tmp/claude-501/reset_test/local/ckpt_latest.pt (4.2 MB, 0.0s)
+[ckpt] step 20 epoch 0 -> /private/tmp/claude-501/reset_test/local/ckpt_latest.pt (4.2 MB, 0.0s)
+signal 15 received: checkpointing at step 24 and exiting
+[ckpt] step 24 epoch 0 -> /private/tmp/claude-501/reset_test/local/ckpt_latest.pt (4.2 MB, 0.0s)
+exit code 143 (expected 143)
+ckpt_latest.pt after SIGTERM: step 24, finished=False
+
+=== (b) local disk wiped, mirror survives ===
+restored run files from mirror /private/tmp/claude-501/reset_test/mirror (step 24)
+RESUMED from /private/tmp/claude-501/reset_test/local/ckpt_latest.pt: step=24 epoch=0 elapsed=25s best wp_masked=0.642117 (step 20) data position: batch 2 window 4
+stopping: max_steps=40 reached
+calibrated best.pt: multiplier=1.0 (wp_masked 0.6434 -> 0.6434, on 16 sequences)
+calibrated last.pt: multiplier=1.0 (wp_masked 0.6434 -> 0.6434, on 16 sequences)
+summary written to /private/tmp/claude-501/reset_test/local/summary.md
+resumed from step 24 after the wipe -> finished at step 40; log.txt holds both launches
+RESET+SIGNAL OK

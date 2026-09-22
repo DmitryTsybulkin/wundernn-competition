@@ -282,6 +282,126 @@ def test_init_skip_from_ridge_reproduces_ridge_predictions(seed=8):
     print(f"[G] init_skip_from_ridge reproduces ridge_v1 predictions exactly (max abs diff {max_abs_diff:.2e})")
 
 
+def test_tcn_causality(seed=9):
+    """notes/TASK.md's causality gate: perturbing row t's features must not change any
+    output at row < t. Verified numerically by perturbing one row deep inside a sequence
+    and comparing outputs before/at it. This caught a real bug during development:
+    GroupNorm(1, C) pools its statistics over time as well as channels, so an output at an
+    early row depended on a later row's raw values through shared normalization
+    statistics — a genuine causality leak. Fixed by switching to per-timestep
+    LayerNorm(channels) (see CausalConvBlock in model.py)."""
+    torch.manual_seed(seed)
+    for use_skip in (False, True):
+        cfg = ModelConfig(
+            arch="tcn", trunk_hidden=(32,), tcn_channels=16, tcn_kernel_size=3, tcn_layers=4, use_skip=use_skip
+        )
+        model = SequenceModel(cfg).eval()
+        rf = model.temporal.receptive_field
+
+        L = rf * 3
+        x = torch.randn(2, L, cfg.n_features)
+        t_perturb = L // 2
+
+        with torch.no_grad():
+            pred1, _ = model(x, model.init_hidden(2))
+            x2 = x.clone()
+            x2[:, t_perturb, :] += 1000.0
+            pred2, _ = model(x2, model.init_hidden(2))
+
+        diff_before = (pred1[:, :t_perturb] - pred2[:, :t_perturb]).abs().max().item()
+        diff_at = (pred1[:, t_perturb] - pred2[:, t_perturb]).abs().max().item()
+        assert diff_before == 0.0, (
+            f"CAUSALITY VIOLATED (use_skip={use_skip}): rows before t={t_perturb} "
+            f"changed by {diff_before} when only row {t_perturb} was perturbed"
+        )
+        assert diff_at > 1.0, f"perturbation had no effect at t={t_perturb} itself ({diff_at}) — test isn't exercising the model"
+        print(f"[H] TCN causality (use_skip={use_skip}, receptive_field={rf}): rows < t unchanged "
+              f"(diff={diff_before}), row t changed (diff={diff_at:.1f})")
+
+
+def test_tcn_streaming_equals_batched(seed=10):
+    """notes/TASK.md's streaming-equivalence gate: per-row ring-buffer inference (the real
+    online contract — one forward pass per row, carrying the buffer as `hidden`) must
+    reproduce the batched training-time forward pass to ~1e-5 on a full sequence."""
+    torch.manual_seed(seed)
+    cfg = ModelConfig(arch="tcn", trunk_hidden=(32,), tcn_channels=16, tcn_kernel_size=3, tcn_layers=4, use_skip=True)
+    model = SequenceModel(cfg).eval()
+
+    L = model.temporal.receptive_field * 3
+    x = torch.randn(1, L, cfg.n_features)
+
+    with torch.no_grad():
+        batched_pred, _ = model(x, model.init_hidden(1))
+
+        hidden = model.init_hidden(1)
+        stepwise_pred = torch.empty_like(batched_pred)
+        for t in range(L):
+            step_pred, hidden = model(x[:, t : t + 1], hidden)
+            stepwise_pred[:, t] = step_pred[:, 0]
+
+    max_abs_diff = (batched_pred - stepwise_pred).abs().max().item()
+    assert max_abs_diff < 1e-5, f"TCN streaming vs batched mismatch: {max_abs_diff}"
+    print(f"[I] TCN per-row ring-buffer inference == batched forward (max abs diff {max_abs_diff:.2e})")
+
+
+def test_tcn_zero_padded_warmup(seed=11):
+    """Sanity check for the documented warm-up handling: a sequence shorter than the
+    receptive field must still run (zero-padded left context) and produce finite output."""
+    torch.manual_seed(seed)
+    cfg = ModelConfig(arch="tcn", tcn_channels=16, tcn_kernel_size=3, tcn_layers=5)
+    model = SequenceModel(cfg).eval()
+    assert model.temporal.receptive_field > 50
+
+    x = torch.randn(1, 50, cfg.n_features)  # shorter than the receptive field (63)
+    with torch.no_grad():
+        pred, hidden = model(x, model.init_hidden(1))
+    assert torch.isfinite(pred).all()
+    assert hidden.shape == (1, model.temporal.buffer_len, model.temporal.in_dim)
+    print(f"[J] TCN handles a sequence shorter than its receptive field ({50} < {model.temporal.receptive_field}) via zero-padded left context")
+
+
+def test_loader_resume_and_prefetch_are_exact(seed=12):
+    """TBPTTLoader.state_dict()/load_state_dict() must reproduce the identical window stream
+    (same shuffle, same batches, same is_first flags) from any mid-batch position, including
+    across an epoch boundary; prefetching must not change the stream. (notes/TASK_gpu_prep.md)"""
+    from train.data import TBPTTLoader
+    path = str(ROOT / "datasets/train_subset.parquet")
+    if not Path(path).exists():
+        print("[loader-resume] skipped: datasets/train_subset.parquet not present")
+        return
+    kw = dict(batch_size=4, chunk_len=5000, max_row_groups=8, seed=seed)  # 2 batches x 4 windows = 8/epoch
+
+    def stream(loader, n, epochs=3):
+        out = []
+        for _ in range(epochs):
+            for w in loader.epoch():
+                out.append((w.features.copy(), w.t0.copy(), w.is_first, loader.state_dict()))
+                if len(out) == n:
+                    return out
+        return out
+
+    ref = stream(TBPTTLoader(path, **kw), 20)
+    pre = stream(TBPTTLoader(path, prefetch=True, **kw), 20)
+    for a, b in zip(ref, pre):
+        assert np.array_equal(a[0], b[0]) and np.array_equal(a[1], b[1]) and a[2] == b[2], "prefetch changed the stream"
+    for cut in (1, 3, 4, 5, 8, 11):   # batch boundary, mid-batch, exact epoch end, mid-epoch-2
+        resumed = TBPTTLoader(path, **kw)
+        resumed.load_state_dict(ref[cut - 1][3])
+        tail = []
+        for _ in range(3):
+            for w in resumed.epoch():
+                tail.append((w.features.copy(), w.t0.copy(), w.is_first))
+                if len(tail) == 20 - cut:
+                    break
+            if len(tail) == 20 - cut:
+                break
+        assert len(tail) == 20 - cut
+        for i, (f, t, first) in enumerate(tail):
+            assert np.array_equal(f, ref[cut + i][0]) and np.array_equal(t, ref[cut + i][1]) and first == ref[cut + i][2], \
+                f"resume from window {cut} diverged at +{i}"
+    print("[loader-resume] resumed streams identical to the uninterrupted one from 6 cut points (incl. mid-batch and epoch boundary); prefetch identical")
+
+
 if __name__ == "__main__":
     test_metric_matches_utils()
     test_metric_masking()
@@ -293,4 +413,8 @@ if __name__ == "__main__":
     test_global_accumulator_matches_one_shot_reference()
     test_head_scaling_equals_output_scaling()
     test_init_skip_from_ridge_reproduces_ridge_predictions()
+    test_tcn_causality()
+    test_tcn_streaming_equals_batched()
+    test_tcn_zero_padded_warmup()
+    test_loader_resume_and_prefetch_are_exact()
     print("\nAll self-tests passed.")

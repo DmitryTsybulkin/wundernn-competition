@@ -1,0 +1,48 @@
+=== tcn_rf63: full 1,873-sequence validation (uncalibrated) ===
+wp_masked=0.655782 (t0=0.650189 t1=0.661375)  wp_all_rows=0.475998  ratio=0.726  (baseline 0.713, GRU 0.735)
+
+--- shared multiplier sweep (TCN) ---
+  c=1.0   wp_masked=0.655782
+  c=0.8   wp_masked=0.653247
+  c=0.6   wp_masked=0.650562
+  c=0.5   wp_masked=0.649726
+  c=0.45  wp_masked=0.649443
+  c=0.4   wp_masked=0.649179
+  c=0.35  wp_masked=0.648849
+  c=0.3   wp_masked=0.648406
+  c=0.25  wp_masked=0.648127
+  c=0.2   wp_masked=0.648049
+  best c=1.0 (0.655782); uncalibrated (c=1.0) = 0.655782; gain from calibration = +0.000000
+  -> using c=1.0 for the TCN in the blends below
+
+=== solo scores after each model's own calibration ===
+  baseline  0.672580
+  gru       0.667194
+  tcn       0.655782
+
+=== prediction-stream Pearson correlation (calibrated, scored rows) ===
+  t0:             baseline        gru        tcn
+      baseline     1.0000     0.9607     0.9430
+      gru          0.9607     1.0000     0.9703
+      tcn          0.9430     0.9703     1.0000
+  t1:             baseline        gru        tcn
+      baseline     1.0000     0.9602     0.9421
+      gru          0.9602     1.0000     0.9723
+      tcn          0.9421     0.9723     1.0000
+
+=== blends (simplex grid step 0.1, 66 points); best single = baseline 0.672580 ===
+shared weights (baseline, gru, tcn) — top 5 (over-tuning guard: how flat is the top?):
+   0.675001  w=(0.7,0.3,0.0)
+   0.674995  w=(0.7,0.2,0.1)
+   0.674865  w=(0.8,0.2,0.0)
+   0.674736  w=(0.6,0.3,0.1)
+   0.674723  w=(0.8,0.1,0.1)
+per-target weights: t0 w=(0.7,0.3,0.0) 0.670588 | t1 w=(0.8,0.2,0.0) 0.679692 -> mean 0.675140
+
+2-way blends (best weight on first-named model):
+   gru+tcn: 0.667378 at w_gru=0.9  (-0.005203 vs best single)
+   baseline+tcn: 0.674094 at w_baseline=0.8  (+0.001514 vs best single)
+   baseline+gru: 0.675001 at w_baseline=0.7  (+0.002421 vs best single)
+
+best 3-way blend = 0.675140; best single model = baseline 0.672580; gain = +0.002560  (threshold 0.003) -> does NOT clear the bar
+vs. calibrated baseline 0.672580: best blend +0.002560, TCN solo -0.016798

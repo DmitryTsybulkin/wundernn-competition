@@ -1,0 +1,15 @@
+
+reference S: step 300 epoch 2 finished=True
+P vs S: step 300 epoch 2 finished=True | max|dparam| raw=0.000e+00 ema=0.000e+00 adam-moments=0.000e+00 | loader pos equal=True
+A vs S: step 300 epoch 2 finished=True | max|dparam| raw=0.000e+00 ema=0.000e+00 adam-moments=0.000e+00 | loader pos equal=True
+B vs S: step 300 epoch 2 finished=True | max|dparam| raw=0.000e+00 ema=0.000e+00 adam-moments=0.000e+00 | loader pos equal=True
+
+validation scores at each eval (wp_masked on 40 seqs):
+  S: step 50 0.6153 | step 100 0.6214 | step 150 0.6272 | step 200 0.6311 | step 250 0.6342 | step 300 0.6403
+  P: step 50 0.6153 | step 100 0.6214 | step 150 0.6272 | step 200 0.6311 | step 250 0.6342 | step 300 0.6403
+  A: step 50 0.6153 | step 100 0.6214 | step 150 0.6272 | step 200 0.6311 | step 250 0.6342 | step 300 0.6403
+  B: step 50 0.6153 | step 100 0.6214 | step 150 0.6272 | step 200 0.6311 | step 250 0.6342 | step 300 0.6403
+  S best.pt valid_wp=0.640338  last.pt vs S max|dparam|=0.000e+00
+  P best.pt valid_wp=0.640338  last.pt vs S max|dparam|=0.000e+00
+  A best.pt valid_wp=0.640338  last.pt vs S max|dparam|=0.000e+00
+  B best.pt valid_wp=0.640338  last.pt vs S max|dparam|=0.000e+00

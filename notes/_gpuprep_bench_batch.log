@@ -1,0 +1,12 @@
+device=cpu threads=8 chunk_len=2000 steps/size=4 (+1 warm-up) train=train_subset.parquet
+batch   64: 1.84 s/step (median; mean 1.82)  69,521 rows/s  load 1.2s/batch = 0.12s/step  loss -0.1806->-0.2416  peak RSS 3.1 GB
+batch  128: 2.99 s/step (median; mean 2.99)  85,731 rows/s  load 1.9s/batch = 0.19s/step  loss -0.2752->-0.2941  peak RSS 5.0 GB
+batch  256: 5.16 s/step (median; mean 5.15)  99,211 rows/s  load 3.8s/batch = 0.38s/step  loss -0.2928->-0.3076  peak RSS 8.5 GB
+batch  512: 15.46 s/step (median; mean 15.40)  66,251 rows/s  load 7.2s/batch = 0.72s/step  loss -0.3129->-0.3326  peak RSS 12.1 GB
+
+| batch | s/step | rows/s | vs batch 64 | s per 1000 rows | load s/step | peak RSS GB | loss (first->last) |
+|---:|---:|---:|---:|---:|---:|---:|---|
+| 64 | 1.84 | 69,521 | 1.00x | 14.38 | 0.12 | 3.1 | -0.181 -> -0.242 |
+| 128 | 2.99 | 85,731 | 1.23x | 11.66 | 0.19 | 5.0 | -0.275 -> -0.294 |
+| 256 | 5.16 | 99,211 | 1.43x | 10.08 | 0.38 | 8.5 | -0.293 -> -0.308 |
+| 512 | 15.46 | 66,251 | 0.95x | 15.09 | 0.72 | 12.1 | -0.313 -> -0.333 |

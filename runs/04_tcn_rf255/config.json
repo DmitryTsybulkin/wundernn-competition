@@ -1,0 +1,63 @@
+{
+  "model_config": {
+    "n_features": 112,
+    "trunk_hidden": [
+      256,
+      128
+    ],
+    "trunk_activation": "relu",
+    "arch": "tcn",
+    "gru_hidden": 128,
+    "gru_layers": 2,
+    "tcn_channels": 128,
+    "tcn_kernel_size": 3,
+    "tcn_layers": 7,
+    "reparam": false,
+    "dropout": 0.0,
+    "use_skip": true
+  },
+  "n_params": 409060,
+  "train_args": {
+    "train_path": "/Users/main/Projects/Wundernn/wnn_connectome_starterpack/datasets/train.parquet",
+    "valid_path": "/Users/main/Projects/Wundernn/wnn_connectome_starterpack/datasets/valid.parquet",
+    "max_row_groups": null,
+    "batch_size": 64,
+    "chunk_len": 2000,
+    "trunk_hidden": [
+      256,
+      128
+    ],
+    "arch": "tcn",
+    "gru_hidden": 128,
+    "gru_layers": 2,
+    "tcn_channels": 128,
+    "tcn_kernel_size": 3,
+    "tcn_layers": 7,
+    "reparam": false,
+    "dropout": 0.0,
+    "use_skip": true,
+    "skip_init": "ridge",
+    "skip_init_path": "/Users/main/Projects/Wundernn/wnn_connectome_starterpack/models/ridge_v1.npz",
+    "loss_mode": "global",
+    "lr": 0.0003,
+    "lr_schedule": "none",
+    "lr_min_factor": 0.05,
+    "weight_decay": 0.0,
+    "grad_clip": 1.0,
+    "epochs": 1,
+    "ema_decay": 0.98,
+    "valid_sequences": 400,
+    "valid_every_windows": 200,
+    "valid_batch_size": 32,
+    "calibrate_sequences": 400,
+    "early_stop_patience": 5,
+    "max_seconds": 3600.0,
+    "device": null,
+    "seed": 0,
+    "out_dir": "runs/04_tcn_rf255",
+    "run_name": "04_tcn_rf255",
+    "wandb_mode": "offline",
+    "wandb_project": "Wundernn",
+    "wandb_entity": "my-lore"
+  }
+}

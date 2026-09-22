@@ -1,0 +1,21 @@
+phase 1: S exited with code 0 (completed)
+phase 1: P exited with code 0 (completed)
+phase 1: A exited with code 137 (crash hook)
+phase 1: B exited with code 137 (crash hook)
+phase 2: A resumed run exited with code 0
+phase 2: B resumed run exited with code 0
+
+reference S: step 60 epoch 0 finished=True
+P vs S: step 60 epoch 0 finished=True | max|dparam| raw=0.000e+00 ema=0.000e+00 adam-moments=0.000e+00 | loader pos equal=True
+A vs S: step 60 epoch 0 finished=True | max|dparam| raw=0.000e+00 ema=0.000e+00 adam-moments=0.000e+00 | loader pos equal=True
+B vs S: step 60 epoch 0 finished=True | max|dparam| raw=0.000e+00 ema=0.000e+00 adam-moments=0.000e+00 | loader pos equal=True
+
+validation scores at each eval (wp_masked on 40 seqs):
+  S: step 20 0.6113 | step 40 0.6138 | step 60 0.6169
+  P: step 20 0.6113 | step 40 0.6138 | step 60 0.6169
+  A: step 20 0.6113 | step 40 0.6138 | step 60 0.6169
+  B: step 20 0.6113 | step 40 0.6138 | step 40 0.6138 | step 60 0.6169
+  S best.pt valid_wp=0.616897  last.pt vs S max|dparam|=0.000e+00
+  P best.pt valid_wp=0.616897  last.pt vs S max|dparam|=0.000e+00
+  A best.pt valid_wp=0.616897  last.pt vs S max|dparam|=0.000e+00
+  B best.pt valid_wp=0.616897  last.pt vs S max|dparam|=0.000e+00

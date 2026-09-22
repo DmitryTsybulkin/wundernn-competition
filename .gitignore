@@ -7,10 +7,12 @@ tools/_*.npz
 tools/_*.npy
 *.npy
 
-# Checkpoints: keep the small ones per run, exclude nothing by default,
-# but never commit optimizer-state checkpoints from interrupted runs.
-runs/*/ckpt_latest.pt
+# Checkpoints: every per-run file is small (~1-5 MB) and is committed, INCLUDING
+# runs/*/ckpt_latest.pt (resumable-training state, notes/TASK_gpu_prep.md): the Colab
+# notebook pushes it back so an interrupted run can continue from anywhere.
+# (Until 2026-09-21 ckpt_latest.pt was ignored; changed because the task requires it.)
 runs/*/wandb/
+runs/*/*.tmp
 
 # Python
 __pycache__/

@@ -1,0 +1,162 @@
+=================== PASS 1: SMOKE=True ===================
+
+######## notebook cell 1 ########
+SMOKE=True RUN_NAME=05_gru_gpu BATCH_SIZE=16 LR=sqrt-scaled MAX_HOURS=3.0
+
+######## notebook cell 3 ########
+DEVICE=cpu: GPU check skipped (local rehearsal)
+
+######## notebook cell 5 ########
+copying train_subset.parquet (0.09 GB) Drive -> local disk ...
+  done in 0s
+train: /private/tmp/claude-501/nb_rehearsal/content/data/train_subset.parquet (0.09 GB)
+copying valid_subset.parquet (0.09 GB) Drive -> local disk ...
+  done in 0s
+valid: /private/tmp/claude-501/nb_rehearsal/content/data/valid_subset.parquet (0.09 GB)
+
+######## notebook cell 7 ########
+Cloning into '/private/tmp/claude-501/nb_rehearsal/content/wnn_repo'...
+done.
+code under test: 00d6078 2026-09-21 snapshot for rehearsal
+
+######## notebook cell 9 ########
+numpy 2.3.4  pyarrow 19.0.1  torch 2.9.0  (wandb not needed: --wandb-mode disabled)
+
+######## notebook cell 11 ########
+=== SMOKE: smoke_165524_05_gru_gpu: phase 1, killed at step 10 on purpose ===
+$ /Library/Frameworks/Python.framework/Versions/3.12/bin/python3 -u -m train.train --arch gru --trunk-hidden 256 128 --gru-hidden 128 --gru-layers 2 --use-skip --skip-init ridge --loss-mode global --batch-size 16 --chunk-len 2000 --lr 0.00015 --ema-decay 0.98 --seed 0 --epochs 100000 --max-seconds 10800 --early-stop-patience 8 --valid-every-windows 200 --valid-sequences 500 --valid-batch-size 32 --calibrate-sequences 500 --checkpoint-every 200 --resume auto --tee-log --prefetch --train-path /private/tmp/claude-501/nb_rehearsal/content/data/train_subset.parquet --valid-path /private/tmp/claude-501/nb_rehearsal/content/data/valid_subset.parquet --out-dir /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/smoke_165524_05_gru_gpu --mirror-dir /private/tmp/claude-501/nb_rehearsal/drive/runs/smoke_165524_05_gru_gpu --run-name smoke_165524_05_gru_gpu --device cpu --wandb-mode disabled --smoke --test-crash-after-step 10
+
+===== launch 2026-09-21 16:55:25  argv: /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/train/train.py --arch gru --trunk-hidden 256 128 --gru-hidden 128 --gru-layers 2 --use-skip --skip-init ridge --loss-mode global --batch-size 16 --chunk-len 2000 --lr 0.00015 --ema-decay 0.98 --seed 0 --epochs 100000 --max-seconds 10800 --early-stop-patience 8 --valid-every-windows 200 --valid-sequences 500 --valid-batch-size 32 --calibrate-sequences 500 --checkpoint-every 200 --resume auto --tee-log --prefetch --train-path /private/tmp/claude-501/nb_rehearsal/content/data/train_subset.parquet --valid-path /private/tmp/claude-501/nb_rehearsal/content/data/valid_subset.parquet --out-dir /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/smoke_165524_05_gru_gpu --mirror-dir /private/tmp/claude-501/nb_rehearsal/drive/runs/smoke_165524_05_gru_gpu --run-name smoke_165524_05_gru_gpu --device cpu --wandb-mode disabled --smoke --test-crash-after-step 10 =====
+skip connection initialized from /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/models/ridge_v1.npz
+model params: 260,452  arch=gru  trunk_hidden=(256, 128) gru_hidden=128 gru_layers=2  reparam=False  device: cpu
+loss_mode: global
+train sequences/epoch: 48  windows/epoch: 30
+--resume auto: no checkpoint found, starting fresh
+[step 10] loss=-0.2172 lr=1.50e-04 wp_masked=0.6042 (t0=0.6039 t1=0.6044) wp_all_rows=0.3944 ratio=0.653 (baseline: 0.713) (15s elapsed)
+  -> new best, saved to /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/smoke_165524_05_gru_gpu/best.pt
+[ckpt] step 10 epoch 0 -> /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/smoke_165524_05_gru_gpu/ckpt_latest.pt (4.2 MB, 0.0s)
+TEST HOOK: simulating a kill at step 10
+=== SMOKE: phase 1 exited with 137 (137 expected) ===
+=== SMOKE: phase 2, identical command, --resume auto ===
+$ /Library/Frameworks/Python.framework/Versions/3.12/bin/python3 -u -m train.train --arch gru --trunk-hidden 256 128 --gru-hidden 128 --gru-layers 2 --use-skip --skip-init ridge --loss-mode global --batch-size 16 --chunk-len 2000 --lr 0.00015 --ema-decay 0.98 --seed 0 --epochs 100000 --max-seconds 10800 --early-stop-patience 8 --valid-every-windows 200 --valid-sequences 500 --valid-batch-size 32 --calibrate-sequences 500 --checkpoint-every 200 --resume auto --tee-log --prefetch --train-path /private/tmp/claude-501/nb_rehearsal/content/data/train_subset.parquet --valid-path /private/tmp/claude-501/nb_rehearsal/content/data/valid_subset.parquet --out-dir /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/smoke_165524_05_gru_gpu --mirror-dir /private/tmp/claude-501/nb_rehearsal/drive/runs/smoke_165524_05_gru_gpu --run-name smoke_165524_05_gru_gpu --device cpu --wandb-mode disabled --smoke
+
+===== launch 2026-09-21 16:55:42  argv: /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/train/train.py --arch gru --trunk-hidden 256 128 --gru-hidden 128 --gru-layers 2 --use-skip --skip-init ridge --loss-mode global --batch-size 16 --chunk-len 2000 --lr 0.00015 --ema-decay 0.98 --seed 0 --epochs 100000 --max-seconds 10800 --early-stop-patience 8 --valid-every-windows 200 --valid-sequences 500 --valid-batch-size 32 --calibrate-sequences 500 --checkpoint-every 200 --resume auto --tee-log --prefetch --train-path /private/tmp/claude-501/nb_rehearsal/content/data/train_subset.parquet --valid-path /private/tmp/claude-501/nb_rehearsal/content/data/valid_subset.parquet --out-dir /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/smoke_165524_05_gru_gpu --mirror-dir /private/tmp/claude-501/nb_rehearsal/drive/runs/smoke_165524_05_gru_gpu --run-name smoke_165524_05_gru_gpu --device cpu --wandb-mode disabled --smoke =====
+skip connection initialized from /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/models/ridge_v1.npz
+model params: 260,452  arch=gru  trunk_hidden=(256, 128) gru_hidden=128 gru_layers=2  reparam=False  device: cpu
+loss_mode: global
+train sequences/epoch: 48  windows/epoch: 30
+RESUMED from /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/smoke_165524_05_gru_gpu/ckpt_latest.pt: step=10 epoch=0 elapsed=15s best wp_masked=0.604169 (step 10) data position: batch 1 window 0
+[step 20] loss=-0.2890 lr=1.50e-04 wp_masked=0.6046 (t0=0.6042 t1=0.6049) wp_all_rows=0.3951 ratio=0.653 (baseline: 0.713) (30s elapsed)
+  -> new best, saved to /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/smoke_165524_05_gru_gpu/best.pt
+stopping: max_steps=20 reached
+[ckpt] step 20 epoch 0 -> /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/smoke_165524_05_gru_gpu/ckpt_latest.pt (4.2 MB, 0.0s)
+done. best valid wp_masked (on 32 sequences): 0.6046
+calibrated best.pt: multiplier=1.0 (wp_masked 0.6046 -> 0.6046, on 32 sequences)
+calibrated last.pt: multiplier=1.0 (wp_masked 0.6046 -> 0.6046, on 32 sequences)
+summary written to /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/smoke_165524_05_gru_gpu/summary.md
+  [ok] phase 1 died at the kill hook (137)
+  [ok] phase 2 exited 0
+  [ok] phase 2 printed RESUMED from step 10
+  [ok] finished at step 20
+  [ok] summary.md exists locally
+  [ok] log.txt exists locally
+  [ok] config.json exists locally
+  [ok] best.pt exists locally
+  [ok] last.pt exists locally
+  [ok] ckpt_latest.pt exists locally
+  [ok] mirror has ckpt_latest.pt + summary.md
+SMOKE OK — the full path (train -> checkpoint -> kill -> resume -> finish -> calibrate -> summary) works.
+
+launcher exit code: 0 
+
+######## notebook cell 13 ########
+SMOKE=True: nothing to push. If the log above says SMOKE OK, set SMOKE=False and run again.
+
+######## notebook cell 15 ########
+this notebook session so far: 0.01 h  ->  ~0.0 compute units (assumes 1.9 units/h for a T4; the runtime is billed until released, so check the Colab resources panel)
+
+=================== PASS 2: SMOKE=False (short real-mode run) ===================
+
+######## notebook cell 1 ########
+SMOKE=False RUN_NAME=05_gru_gpu BATCH_SIZE=16 LR=sqrt-scaled MAX_HOURS=3.0
+
+######## notebook cell 3 ########
+DEVICE=cpu: GPU check skipped (local rehearsal)
+
+######## notebook cell 5 ########
+train: /private/tmp/claude-501/nb_rehearsal/content/data/train_subset.parquet (0.09 GB)
+valid: /private/tmp/claude-501/nb_rehearsal/content/data/valid_subset.parquet (0.09 GB)
+
+######## notebook cell 7 ########
+
+Already up to date.
+code under test: 00d6078 2026-09-21 snapshot for rehearsal
+
+######## notebook cell 9 ########
+numpy 2.3.4  pyarrow 19.0.1  torch 2.9.0  (wandb not needed: --wandb-mode disabled)
+
+######## notebook cell 11 ########
+$ /Library/Frameworks/Python.framework/Versions/3.12/bin/python3 -u -m train.train --arch gru --trunk-hidden 256 128 --gru-hidden 128 --gru-layers 2 --use-skip --skip-init ridge --loss-mode global --batch-size 16 --chunk-len 2000 --lr 0.00015 --ema-decay 0.98 --seed 0 --epochs 100000 --max-seconds 10800 --early-stop-patience 8 --valid-every-windows 200 --valid-sequences 500 --valid-batch-size 32 --calibrate-sequences 500 --checkpoint-every 200 --resume auto --tee-log --prefetch --train-path /private/tmp/claude-501/nb_rehearsal/content/data/train_subset.parquet --valid-path /private/tmp/claude-501/nb_rehearsal/content/data/valid_subset.parquet --out-dir /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu --mirror-dir /private/tmp/claude-501/nb_rehearsal/drive/runs/05_gru_gpu --run-name 05_gru_gpu --device cpu --wandb-mode disabled --max-steps 20 --valid-every-windows 10 --checkpoint-every 10 --valid-sequences 16 --calibrate-sequences 16
+
+===== launch 2026-09-21 16:56:12  argv: /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/train/train.py --arch gru --trunk-hidden 256 128 --gru-hidden 128 --gru-layers 2 --use-skip --skip-init ridge --loss-mode global --batch-size 16 --chunk-len 2000 --lr 0.00015 --ema-decay 0.98 --seed 0 --epochs 100000 --max-seconds 10800 --early-stop-patience 8 --valid-every-windows 200 --valid-sequences 500 --valid-batch-size 32 --calibrate-sequences 500 --checkpoint-every 200 --resume auto --tee-log --prefetch --train-path /private/tmp/claude-501/nb_rehearsal/content/data/train_subset.parquet --valid-path /private/tmp/claude-501/nb_rehearsal/content/data/valid_subset.parquet --out-dir /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu --mirror-dir /private/tmp/claude-501/nb_rehearsal/drive/runs/05_gru_gpu --run-name 05_gru_gpu --device cpu --wandb-mode disabled --max-steps 20 --valid-every-windows 10 --checkpoint-every 10 --valid-sequences 16 --calibrate-sequences 16 =====
+skip connection initialized from /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/models/ridge_v1.npz
+model params: 260,452  arch=gru  trunk_hidden=(256, 128) gru_hidden=128 gru_layers=2  reparam=False  device: cpu
+loss_mode: global
+train sequences/epoch: 48  windows/epoch: 30
+--resume auto: no checkpoint found, starting fresh
+[step 10] loss=-0.2172 lr=1.50e-04 wp_masked=0.6121 (t0=0.5832 t1=0.6409) wp_all_rows=0.4240 ratio=0.693 (baseline: 0.713) (11s elapsed)
+  -> new best, saved to /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu/best.pt
+[ckpt] step 10 epoch 0 -> /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu/ckpt_latest.pt (4.2 MB, 0.0s)
+[step 20] loss=-0.2890 lr=1.50e-04 wp_masked=0.6123 (t0=0.5827 t1=0.6418) wp_all_rows=0.4242 ratio=0.693 (baseline: 0.713) (22s elapsed)
+  -> new best, saved to /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu/best.pt
+stopping: max_steps=20 reached
+[ckpt] step 20 epoch 0 -> /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu/ckpt_latest.pt (4.2 MB, 0.0s)
+done. best valid wp_masked (on 16 sequences): 0.6123
+calibrated best.pt: multiplier=1.0 (wp_masked 0.6123 -> 0.6123, on 16 sequences)
+calibrated last.pt: multiplier=1.0 (wp_masked 0.6123 -> 0.6123, on 16 sequences)
+summary written to /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu/summary.md
+
+launcher exit code: 0 
+
+######## notebook cell 13 ########
+[main bb32dc8] runs/05_gru_gpu: results from Colab (summary.md, log.txt, config.json, best.pt, last.pt, ckpt_latest.pt)
+ 6 files changed, 97 insertions(+)
+ create mode 100644 runs/05_gru_gpu/best.pt
+ create mode 100644 runs/05_gru_gpu/ckpt_latest.pt
+ create mode 100644 runs/05_gru_gpu/config.json
+ create mode 100644 runs/05_gru_gpu/last.pt
+ create mode 100644 runs/05_gru_gpu/log.txt
+ create mode 100644 runs/05_gru_gpu/summary.md
+To /private/tmp/claude-501/nb_rehearsal/remote.git
+   00d6078..bb32dc8  HEAD -> main
+
+######## notebook cell 15 ########
+run 05_gru_gpu: step 20, finished=True, best in-run wp_masked=0.6123 @ step 20
+training time, summed over 1 launch(es): 0.01 h
+this notebook session so far: 0.01 h  ->  ~0.0 compute units (assumes 1.9 units/h for a T4; the runtime is billed until released, so check the Colab resources panel)
+
+=================== VERIFY: what reached the 'remote' ===================
+100644 blob e3e963834e3cca803762f2a5e20559d34af75498 1047219	runs/05_gru_gpu/best.pt
+100644 blob d0d598280bc8f5642d2c3e78afcd16ae30842fac 4224665	runs/05_gru_gpu/ckpt_latest.pt
+100644 blob 38e033db7c56caa280e2ff4a44f535243f4cea81    1889	runs/05_gru_gpu/config.json
+100644 blob bdf2a5e082c2be618d45646c76219ea8cac8c6cf 1047219	runs/05_gru_gpu/last.pt
+100644 blob c78159e71357287000b5a17eadc62890517c40d2    2411	runs/05_gru_gpu/log.txt
+100644 blob f6fe8bcadf7fc7985412e1c4f1b4caed3a94f695     808	runs/05_gru_gpu/summary.md
+push verified: all six files present, largest 4224665 bytes
+
+=================== PASS 3: re-run the train cell on the finished run ===================
+$ /Library/Frameworks/Python.framework/Versions/3.12/bin/python3 -u -m train.train --arch gru --trunk-hidden 256 128 --gru-hidden 128 --gru-layers 2 --use-skip --skip-init ridge --loss-mode global --batch-size 16 --chunk-len 2000 --lr 0.00015 --ema-decay 0.98 --seed 0 --epochs 100000 --max-seconds 10800 --early-stop-patience 8 --valid-every-windows 200 --valid-sequences 500 --valid-batch-size 32 --calibrate-sequences 500 --checkpoint-every 200 --resume auto --tee-log --prefetch --train-path /private/tmp/claude-501/nb_rehearsal/content/data/train_subset.parquet --valid-path /private/tmp/claude-501/nb_rehearsal/content/data/valid_subset.parquet --out-dir /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu --mirror-dir /private/tmp/claude-501/nb_rehearsal/drive/runs/05_gru_gpu --run-name 05_gru_gpu --device cpu --wandb-mode disabled --max-steps 20 --valid-every-windows 10 --checkpoint-every 10 --valid-sequences 16 --calibrate-sequences 16
+
+===== launch 2026-09-21 16:56:41  argv: /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/train/train.py --arch gru --trunk-hidden 256 128 --gru-hidden 128 --gru-layers 2 --use-skip --skip-init ridge --loss-mode global --batch-size 16 --chunk-len 2000 --lr 0.00015 --ema-decay 0.98 --seed 0 --epochs 100000 --max-seconds 10800 --early-stop-patience 8 --valid-every-windows 200 --valid-sequences 500 --valid-batch-size 32 --calibrate-sequences 500 --checkpoint-every 200 --resume auto --tee-log --prefetch --train-path /private/tmp/claude-501/nb_rehearsal/content/data/train_subset.parquet --valid-path /private/tmp/claude-501/nb_rehearsal/content/data/valid_subset.parquet --out-dir /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu --mirror-dir /private/tmp/claude-501/nb_rehearsal/drive/runs/05_gru_gpu --run-name 05_gru_gpu --device cpu --wandb-mode disabled --max-steps 20 --valid-every-windows 10 --checkpoint-every 10 --valid-sequences 16 --calibrate-sequences 16 =====
+skip connection initialized from /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/models/ridge_v1.npz
+model params: 260,452  arch=gru  trunk_hidden=(256, 128) gru_hidden=128 gru_layers=2  reparam=False  device: cpu
+loss_mode: global
+train sequences/epoch: 48  windows/epoch: 30
+RESUMED from /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu/ckpt_latest.pt: step=20 epoch=0 elapsed=22s best wp_masked=0.612251 (step 20) data position: batch 2 window 0  [run was already finished]
+checkpoint says the run already finished; skipping straight to the final stage
+done. best valid wp_masked (on 16 sequences): 0.6123
+summary written to /private/tmp/claude-501/nb_rehearsal/content/wnn_repo/runs/05_gru_gpu/summary.md
+
+launcher exit code: 0 
+
+REHEARSAL OK

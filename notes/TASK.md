@@ -1,101 +1,99 @@
-# TASK — make training GPU-ready, resumable, and throughput-scaled
+# TASK — dilated causal convolutions (TCN) as a second, decorrelated model
 
-Read `notes/STATUS.md` first. Follow `CLAUDE.md`. Use `python3`.
-Append to `notes/LOG.md`, update `notes/STATUS.md` when done.
+Read `notes/STATUS.md` first. Follow `CLAUDE.md`. Use `python3`. Append to
+`notes/LOG.md`, update `notes/STATUS.md` when done.
 
-**Do not start a long training run in this task.** Everything here is
-preparation, benchmarking and dry-running on CPU. The long run happens next, on
-a rented T4 in Google Colab, and every Colab minute costs compute units — so
-nothing may be debugged there.
+**This is the active task.** `notes/TASK_gpu_prep.md` is queued and must NOT be
+started in this session — it will run later, once Colab is set up. This task is
+CPU-only by design and does not compete with it.
 
-## Why this task exists
-`02_trunk_global_full` was still improving monotonically when a 90-minute wall
-clock stopped it. It is the only untested direction left: calibration is taken,
-per-target calibration does not help, the ensemble fell below threshold, the
-ridge is weaker. Current leaderboard: leader 0.6622, us 0.6501, pristine
-baseline 0.5935 — the whole field spans 0.069, so remaining gains are small and
-must not be wasted on avoidable failures.
+## Why
+Everything cheap is exhausted: calibration is taken (+0.0555, transferred to
+the leaderboard in full), per-target calibration does not help, the ridge and
+LightGBM are far behind, and the GRU+baseline ensemble failed because the two
+correlate at 0.96. LightGBM decorrelated (0.76-0.81) but only by being weaker.
 
-## 1. Resumable training — the hard requirement
-Colab sessions are interrupted (time limits, disconnects, idle timeouts). A run
-that cannot resume turns an interruption into hours of wasted compute units.
+What is needed is a model that is **both strong and structurally different**.
+A temporal convolutional network is the best remaining candidate:
+- It has a genuinely different inductive bias from a GRU — a fixed finite
+  receptive field with explicit per-lag weights, rather than a learned
+  gated state. The signal here is known to be fast (target autocorrelation
+  0.96@lag1 but the *predictable* part does not respond to smoothing), which
+  suits a bounded receptive field.
+- **It trains faster than a GRU on CPU**, not slower: convolutions have no
+  sequential dependency across the chunk, so a training step parallelises over
+  time. This is the rare experiment the GPU is not needed for.
+- Inference fits the online contract: keep a ring buffer of the last R rows and
+  compute one forward pass per row, O(R) with a fixed R.
 
-Checkpoint every N steps (`--checkpoint-every`, default ~200) into
-`runs/<name>/ckpt_latest.pt`, written atomically (temp file + rename, so an
-interrupted write cannot corrupt it). It must contain everything needed to
-continue bit-identically:
-- model state dict
-- optimizer and LR-scheduler state
-- step counter, epoch, wall-clock elapsed so far
-- the data iterator's position (which sequences/windows are consumed) and the
-  RNG states (python, numpy, torch) needed to reproduce the shuffle
-- the best-so-far score and the config
+Target to beat: `02_trunk_global_full` at 0.667194 full-validation wp_masked.
+Even landing somewhat below that is a useful result **if** its predictions
+correlate meaningfully less than 0.96 with the GRU's — that is what makes an
+ensemble worth revisiting.
 
-Add `--resume <path>` (and `--resume auto` to pick up `ckpt_latest.pt` if it
-exists). On resume, print what it restored: step, epoch, elapsed, best score.
+## 1. Implement the model — DONE (2026-09-21)
+Add to `train/model.py` (do not disturb the GRU path — the queued GPU task
+depends on it):
+- causal 1-D convolution stack over the feature dimension, dilations
+  1, 2, 4, 8, ... up to a configurable depth; residual connections and
+  (weight or layer) normalisation between blocks
+- the same **MLP trunk** on the 112 features before the stack, and the same
+  **ridge-initialised linear skip** from raw features to the two outputs that
+  made the GRU work — those two fixes are what got the GRU above the baseline
+  and there is no reason to re-discover them
+- `--arch {gru,tcn}` selects the path; everything else (loss, evaluator,
+  checkpointing, early stopping) is shared and unchanged
+- print the receptive field in rows and the parameter count at startup
 
-**Test it properly**: run 300 steps straight; separately run 150 steps, kill the
-process, resume, run 150 more. The two final checkpoints must agree closely —
-report the max absolute parameter difference and the two validation scores. A
-large divergence means the RNG or data position is not actually being restored.
+Warm-up is 99 rows, so a receptive field beyond ~99 cannot be fully populated
+at the first required prediction. Handle the beginning of a sequence by
+zero-padding the buffer, and state plainly in the log how you handled it.
 
-## 2. Batch-size scaling benchmark
-The model is small and the GRU is sequential over the chunk, so at batch 64 a
-GPU will sit mostly idle. Batch size — not the GPU itself — is the main lever on
-how much data a run sees.
+## 2. Correctness before performance — DONE, both gates passed
+- **Causality test**: assert that changing row t's features cannot alter the
+  prediction at any row < t. Do it numerically, by perturbing one row and
+  checking which outputs move. A causality bug here would silently leak the
+  future and produce a beautiful validation score that collapses on the
+  leaderboard.
+- **Streaming equivalence**: the ring-buffer per-row inference path must
+  reproduce the batched training-time forward pass to ~1e-5 on a full
+  sequence. Report the max absolute difference.
 
-On CPU, measure s/step and rows/second at batch 64, 128, 256 (larger if RAM
-allows) with chunk_len 2000, everything else fixed. Report a table.
+Both tests must pass before any training run. If either fails, stop and report.
 
-The purpose is not CPU speed; it is to establish the shape of the curve and to
-confirm larger batches work correctly (no OOM, no silent shape bugs, loss values
-sane). Note in the log which batch sizes are worth trying first on the GPU.
+## 3. Short training runs — DONE (03_tcn_rf63, 04_tcn_rf255; wider RF~511 skipped, reason in LOG)
+Two or three configurations, each capped at **60 minutes** wall clock:
+- receptive field ~64 (small), ~256 (medium), and one wider if time allows
+- `--loss-mode global`, ridge-initialised skip, trunk 256,128
+- early stopping patience 5, evaluate every 200 steps on 400 validation
+  sequences, report `wp_masked`, `wp_all_rows` and their ratio (the baseline's
+  is 0.713; the GRU's is 0.735 — anything much lower means mask-fitting)
 
-Also add `--lr` scaling guidance to the log: if batch grows 8x, the LR that was
-right at batch 64 is probably not right at 512. Suggest a starting rule (e.g.
-square-root scaling) but do not tune it here.
+Compare s/step and rows/second against the GRU's ~2.5 s/step at batch 64. If
+the TCN is substantially faster, say so and note what batch size it allows.
 
-## 3. Colab notebook
-`colab/train_wnn.ipynb`, written to run top to bottom with no editing except two
-constants at the top (repo URL, Drive folder):
-1. print the assigned GPU (`nvidia-smi`) and abort loudly if none
-2. mount Google Drive; expect `train_subset.parquet` and a validation file there
-3. clone the private repo via a token read from Colab secrets — **never
-   hard-code or print a token**
-4. `pip install` whatever is missing versus Colab's preinstalled stack
-5. run training with `--resume auto` so re-running the cell after a disconnect
-   continues rather than restarts
-6. on completion (or on resume-after-interrupt), commit and push back to the
-   repo: `runs/<name>/summary.md`, `log.txt`, `config.json`, `best.pt`,
-   `ckpt_latest.pt` (all small), with `datasets/` and any large artifacts
-   gitignored
-7. print the elapsed time and an estimate of compute units consumed
+## 4. The measurement that decides the direction — DONE
+For the best TCN checkpoint, on the **full 1,873-sequence** validation set:
+- `wp_masked`, `wp_all_rows`, and the ratio
+- **the correlation of its predictions with `02_trunk_global_full`'s and with
+  the calibrated baseline's, per target, on scored rows**
+- the best blend of TCN + GRU + calibrated baseline, and whether it beats the
+  best single model by more than 0.003 (the same threshold as before)
+- the calibration sweep — does the TCN need a multiplier, like the baseline
+  did, or is it self-calibrated like the GRU?
 
-Include a "smoke mode" flag that runs ~20 steps end to end, so the first Colab
-session verifies the whole pipeline for a couple of minutes of units instead of
-discovering a bug three hours in.
+Reuse the cached prediction arrays from the earlier ensemble work rather than
+recomputing them.
 
-## 4. Validation data for Colab
-Full `valid.parquet` is 5.6 GB. For in-run monitoring that is wasteful.
-Produce `datasets/valid_subset.parquet`: 500 sequences sampled with a fixed,
-recorded seed, float16 features like the training subset, same schema.
-
-Then measure the offset: score `02_trunk_global_full/best.pt` on this 500-
-sequence subset and on the full 1,873, and record the difference. In-run numbers
-will come from the subset; final numbers always from the full set, locally.
-
-## 5. Full CPU dry run
-Run the complete Colab path locally in smoke mode: the same entry point, same
-flags, `--resume auto`, 20 steps, checkpoint, kill, resume, finish, produce
-`summary.md`. Confirm it works end to end with zero manual intervention.
-
-Report the exact command line the Colab notebook will execute, so it can be
-reviewed before any units are spent.
+## 5. Verdict — DONE: TCN CLOSED (see LOG.md 2026-09-21)
+End with a clear recommendation in `notes/LOG.md`: is the TCN worth pursuing on
+GPU alongside the GRU, worth keeping only as an ensemble member, or closed like
+LightGBM. State the numbers that justify it.
 
 ## Deliverables
-1. LOG.md: the resume-correctness test numbers, the batch-scaling table, the
-   valid-subset offset, and the exact GPU command line.
-2. STATUS.md: note that training is now resumable and Colab-ready; record the
-   leaderboard context (leader 0.6622, us 0.6501, baseline 0.5935).
-3. A short summary: is the pipeline safe to run on paid GPU time, and which
-   batch size / LR to start with.
+1. `notes/LOG.md`: causality and streaming test results, the training table,
+   the full-validation numbers, the correlation matrix, the blend result.
+2. `notes/STATUS.md`: scores table updated; TCN recorded as open or closed.
+3. `runs/<NN>_tcn_*/summary.md` per `CLAUDE.md` for each run.
+4. Do not export a submission unless the TCN or a blend containing it beats
+   0.672580 locally.

@@ -1,0 +1,4 @@
+forward pass over 1873 sequences (/Users/main/Projects/Wundernn/wnn_connectome_starterpack/runs/03_tcn_rf63/last.pt): 470s
+cached to /Users/main/Projects/Wundernn/wnn_connectome_starterpack/tools/_tcn_rf63_raw_preds_valid.npz (674 MB)
+forward pass over 1873 sequences (/Users/main/Projects/Wundernn/wnn_connectome_starterpack/runs/04_tcn_rf255/best.pt): 492s
+cached to /Users/main/Projects/Wundernn/wnn_connectome_starterpack/tools/_tcn_rf255_raw_preds_valid.npz (674 MB)

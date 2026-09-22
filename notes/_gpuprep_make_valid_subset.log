@@ -1,0 +1,7 @@
+sampling 500 of 1873 validation sequences, seed=42
+100/500 sequences written, 8s elapsed
+200/500 sequences written, 16s elapsed
+300/500 sequences written, 25s elapsed
+400/500 sequences written, 35s elapsed
+500/500 sequences written, 45s elapsed
+wrote /Users/main/Projects/Wundernn/wnn_connectome_starterpack/datasets/valid_subset.parquet (1059 MB) in 45s; indices -> /Users/main/Projects/Wundernn/wnn_connectome_starterpack/datasets/valid_subset_indices.json

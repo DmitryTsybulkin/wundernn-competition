@@ -1,0 +1,54 @@
+wandb: Tracking run with wandb version 0.30.0
+wandb: W&B syncing is set to `offline` in this directory. Run `wandb online` or set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in runs/04_tcn_rf255/wandb/offline-run-20260921_135040-aprcr51f
+wandb: View this run in the terminal with `wandb leet`
+skip connection initialized from /Users/main/Projects/Wundernn/wnn_connectome_starterpack/models/ridge_v1.npz
+model params: 409,060  arch=tcn  trunk_hidden=(256, 128) tcn_channels=128 tcn_kernel_size=3 tcn_layers=7 receptive_field=255 rows  reparam=False  device: cpu
+loss_mode: global
+train sequences/epoch: 10607  windows/epoch: 1650
+[step 200] loss=-0.4219 lr=3.00e-04 wp_masked=0.6275 (t0=0.6199 t1=0.6351) wp_all_rows=0.4548 ratio=0.725 (baseline: 0.713) (784s elapsed)
+  -> new best, saved to runs/04_tcn_rf255/best.pt
+[step 400] loss=-0.4326 lr=3.00e-04 wp_masked=0.6458 (t0=0.6379 t1=0.6537) wp_all_rows=0.4712 ratio=0.730 (baseline: 0.713) (1424s elapsed)
+  -> new best, saved to runs/04_tcn_rf255/best.pt
+[step 600] loss=-0.3610 lr=3.00e-04 wp_masked=0.6523 (t0=0.6429 t1=0.6617) wp_all_rows=0.4744 ratio=0.727 (baseline: 0.713) (1988s elapsed)
+  -> new best, saved to runs/04_tcn_rf255/best.pt
+[step 800] loss=-0.3776 lr=3.00e-04 wp_masked=0.6582 (t0=0.6489 t1=0.6675) wp_all_rows=0.4794 ratio=0.728 (baseline: 0.713) (2548s elapsed)
+  -> new best, saved to runs/04_tcn_rf255/best.pt
+[step 1000] loss=-0.3464 lr=3.00e-04 wp_masked=0.6614 (t0=0.6516 t1=0.6713) wp_all_rows=0.4827 ratio=0.730 (baseline: 0.713) (3110s elapsed)
+  -> new best, saved to runs/04_tcn_rf255/best.pt
+[step 1200] loss=-0.3700 lr=3.00e-04 wp_masked=0.6635 (t0=0.6521 t1=0.6750) wp_all_rows=0.4886 ratio=0.736 (baseline: 0.713) (3700s elapsed)
+  -> new best, saved to runs/04_tcn_rf255/best.pt
+stopping: max_seconds=3600.0 reached (3700s elapsed)
+done. best valid wp_masked (on 400 sequences): 0.6635
+calibrated best.pt: multiplier=1.0 (wp_masked 0.6635 -> 0.6635, on 400 sequences)
+calibrated last.pt: multiplier=1.0 (wp_masked 0.6635 -> 0.6635, on 400 sequences)
+wandb: 
+wandb: Run history:
+wandb:        calib/best_multiplier ▁
+wandb:   calib/wp_masked_calibrated ▁
+wandb: calib/wp_masked_uncalibrated ▁
+wandb:                        epoch ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                   train/loss ▃▅█▇▂▃▆▆▆▆▃▂▅▄▄▅▄▃▄▃▅▅▅▃▅▅▄▄▂▃▄▃▂▁▃▄▂▃▂▄
+wandb:                     train/lr ▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:                train/wp_mean ▂▄▂▄▅▃▅▆▇▄▄▅▆▁▄▇▅▆▅▄█▅▄▄▅▆▅▆▆▅█▄▇▅▆▆███▆
+wandb:                  train/wp_t0 ▄▃▆▃▄▃▅▅▄▃▄▃█▄▅▃▂▄▄▃▃▄▅▄▅▃▅▃▇▄▃▄▃▃▂▃▁▄▆▆
+wandb:                  train/wp_t1 ▄▁▃▄▅▁▄▅▃▄▄▃▃▃▂▄▆▂▁▄▂▃▅▅▂▃▃▄▆▄▄▄█▅▄▅▄▄▂▃
+wandb:             valid/mask_ratio ▁▄▃▃▄█
+wandb:                           +6 ...
+wandb: 
+wandb: Run summary:
+wandb:        calib/best_multiplier 1
+wandb:   calib/wp_masked_calibrated 0.66351
+wandb: calib/wp_masked_uncalibrated 0.66351
+wandb:                        epoch 0
+wandb:                   train/loss -0.37003
+wandb:                     train/lr 0.0003
+wandb:                train/wp_mean 0.37003
+wandb:                  train/wp_t0 0.31393
+wandb:                  train/wp_t1 0.42614
+wandb:             valid/mask_ratio 0.73644
+wandb:                           +6 ...
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync runs/04_tcn_rf255/wandb/offline-run-20260921_135040-aprcr51f
+wandb: Find logs at: runs/04_tcn_rf255/wandb/offline-run-20260921_135040-aprcr51f/logs

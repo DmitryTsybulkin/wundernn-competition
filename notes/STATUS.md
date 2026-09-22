@@ -1,6 +1,6 @@
 # STATUS — Wundernn Alfa Connectome
 
-Last updated: 2026-09-19
+Last updated: 2026-09-21 (GPU prep added)
 
 ## Metric (CHANGED 2026-09-15/16)
 **Global Weighted Pearson.** One weighted correlation per target over ALL rows
@@ -40,6 +40,8 @@ Best submitted so far: **0.6501**. Predicted leaderboard for
 |---|---:|---|---:|---:|
 | **baseline, calibrated x0.35 (`submissions/baseline_calibrated/`)** | **0.672580** | — | 0.500796 | n/a |
 | 02_trunk_global_full/best.pt (=last.pt, trunk+skip+global loss, epochs fixed) | 0.667194 | 0.663937 / 0.670452 | 0.490706 | n/a |
+| 03_tcn_rf63/last.pt (TCN, RF 63, same recipe) | 0.655782 | 0.650189 / 0.661375 | 0.475998 | n/a |
+| 04_tcn_rf255/best.pt (TCN, RF 255, same recipe) | 0.651498 | 0.645643 / 0.657352 | 0.472617 | n/a |
 | 01_trunk_global/last.pt (same recipe, epochs bug, see log) | 0.664832 | 0.660792 / 0.668872 | 0.485578 | n/a |
 | 01_trunk_global/best.pt | 0.663142 | 0.659487 / 0.666798 | 0.484664 | n/a |
 | provided GRU baseline, uncalibrated | 0.617052 | 0.587913 / 0.646192 | 0.440156 | 0.589595 |
@@ -96,6 +98,40 @@ contribution): best **0.675395**, beating the best solo component
 packaging bar, and the two models' predictions correlate at 0.96 on both
 targets (little independent signal to combine). `submissions/ensemble_v1/`
 was not created.
+
+## TCN (dilated causal convolutions) — CLOSED (2026-09-21)
+Implemented (`--arch tcn`, ring-buffer streaming, causality + streaming tests pass: exact 0.0
+leak, 9.5e-07 streaming diff) and trained twice under a 60-min cap with the GRU's recipe
+(trunk 256,128 + ridge-init skip + global loss). Full-validation: **RF63 0.655782, RF255
+0.651498** — 0.011 / 0.016 below the GRU (0.667194), 0.017 / 0.021 below the calibrated
+baseline (0.672580); self-calibrated (c=1.0 optimal); healthy mask ratio (0.725). Its
+predictions correlate **0.97 with the GRU's** (more than the baseline's 0.96) and 0.94 with
+the calibrated baseline; the optimal 3-way blend gives the TCN weight 0.0 (best blend 0.675140,
++0.0026, identical to the existing baseline+GRU blend, under the 0.003 bar). Not faster than
+the GRU in any way that matters (RF63 -9% wall clock, RF255 +20%). Not worth GPU time, not
+worth keeping as an ensemble member. No submission exported. Details: `notes/LOG.md` 2026-09-21.
+
+## GPU run readiness (2026-09-21, `notes/LOG.md` "GPU prep") — training is now RESUMABLE and Colab-ready
+Only untested direction left: `02_trunk_global_full` (0.667194) was still improving monotonically when its 90-min
+wall clock stopped it. Context: leader 0.6622, us 0.6501, pristine baseline 0.5935; to pass the leader we need
+~0.685 local.
+- **Resume is bit-identical on CPU** (straight 300 steps vs crash+resume, incl. mid-batch/mid-epoch checkpoints:
+  max|Δparam| = 0 for model, EMA, Adam). `--checkpoint-every`, `--resume auto|PATH`, atomic `ckpt_latest.pt`,
+  `--mirror-dir` (Drive), SIGTERM checkpoint, `--smoke`, `--max-steps`, `--prefetch`, auto `summary.md`.
+- `colab/train_wnn.ipynb` + `colab/launch.py` (single source of the command). Rehearsed end to end on CPU with
+  zero manual steps (smoke incl. kill+resume, real-mode finish, commit+push to a local bare repo, idempotent
+  re-run). NOT exercised: a real GPU, `google.colab` Drive/secrets, real GitHub auth.
+- **In-run validation** = `datasets/valid_subset.parquet` (500 seqs, seed 42, float16; indices in
+  `datasets/valid_subset_indices.json`). It reads **~+0.009 above the full 1,873** for the GRU (+0.006..+0.011
+  across models; random-500 sd 0.010) => full ~= subset - 0.009, leaderboard ~= subset - 0.032. Paired
+  differences between runs have sd 0.002-0.003: differences below ~0.004 on the subset are noise. Final numbers
+  always from the full set, locally.
+- **Batch/LR to start with:** batch 256, lr 6e-4 (sqrt-scaled from 3e-4 @ 64; untuned); try 512 / 8.5e-4 only if
+  the smoke `[speed]` shows the GPU is not saturated. CPU curve (rows/s vs batch 64): 1.00 / 1.23 / 1.43 / 0.95
+  at 64 / 128 / 256 / 512 — a CPU curve, not a GPU prediction.
+- **Before spending units:** (1) commit + push `train/`, `colab/`, `.gitignore` (the Colab clone sees only
+  committed files; they are uncommitted now), (2) upload `train_subset.parquet` (4.9 GB) + `valid_subset.parquet`
+  (1.06 GB) to Drive, (3) Colab secret `GITHUB_TOKEN`, (4) run the notebook with `SMOKE=True` first.
 
 ## Ready submission candidates (none submitted by this session)
 | candidate | local wp_masked | leaderboard | size | throughput |
@@ -195,8 +231,10 @@ submit anything without Dmitry's decision; daily limit is 5.
   Organizers explicitly warn against selecting on the visible mask alone.
 
 ## Pipeline state
-`train/` — data.py, model.py, losses.py, eval.py, train.py, export_onnx.py, selftest.py.
-Runs in `runs/`. wandb offline.
+`train/` — data.py (resumable loader), model.py (`--arch gru|tcn`), losses.py, eval.py, train.py (resumable), export_onnx.py, selftest.py, bench_batch.py.
+`colab/` — train_wnn.ipynb, launch.py. `tools/` also has make_valid_subset.py, valid_subset_offset.py, test_resume.py, test_reset_and_signal.py, rehearse_notebook.py.
+`export_onnx.py` still assumes the GRU state layout (`gru_layers`/`gru_hidden`); it has not been generalised to `--arch tcn` (no TCN was worth exporting).
+Run with `python3 -u -m train.train ...` (not `python3 train/train.py`: `train/` would shadow the package). Runs in `runs/`. wandb offline (or `disabled`).
 
 ### Known defects
 1. **RESOLVED 2026-09-16.** MLP trunk never ran — root cause was an argparse
@@ -222,5 +260,10 @@ Runs in `runs/`. wandb offline.
    CPU throughput (~2.6 s/step incl. eval) is the binding constraint. Not
    addressed this session — MPS benchmarked and ruled out as a fix (see log);
    a rented CUDA GPU is the remaining untested option.
-6. Valid-subset bias: 200-sequence subset read ~0.011 high under the old metric.
-   Not re-measured under Global WP yet.
+6. **MEASURED 2026-09-21.** Valid-subset bias under Global WP: the 500-sequence
+   `valid_subset.parquet` reads +0.009 high for the GRU (+0.006..+0.011 across models). See GPU-readiness section.
+7. **OPEN (2026-09-21).** The GPU path has never run: no CUDA device locally. Speed/memory at batch 256/512,
+   cuDNN, `torch.cuda` RNG restore and `--prefetch` on Colab are unverified; the notebook's `SMOKE=True` pass is
+   the check. Bit-identical resume is proven on CPU only.
+8. **OPEN (2026-09-21).** `train/`, `colab/`, `.gitignore` changes are uncommitted; the Colab notebook clones the
+   repo and would get the OLD trainer (no `--resume`, no `colab/launch.py`) until they are pushed.

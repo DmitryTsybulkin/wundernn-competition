@@ -1,0 +1,25 @@
+phase 1: S exited with code 0 (completed)
+phase 1: P exited with code 0 (completed)
+phase 1: A exited with code 137 (crash hook)
+phase 1: B exited with code 137 (crash hook)
+phase 2: A resumed run exited with code 0
+phase 2: B resumed run exited with code 0
+Traceback (most recent call last):
+  File "/Users/main/Projects/Wundernn/wnn_connectome_starterpack/tools/test_resume.py", line 111, in <module>
+    main()
+  File "/Users/main/Projects/Wundernn/wnn_connectome_starterpack/tools/test_resume.py", line 88, in main
+    ref = load(WORK / "S" / "ckpt_latest.pt")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/main/Projects/Wundernn/wnn_connectome_starterpack/tools/test_resume.py", line 52, in load
+    return torch.load(p, map_location="cpu", weights_only=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/torch/serialization.py", line 1530, in load
+    return _load(
+           ^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/torch/serialization.py", line 2122, in _load
+    result = unpickler.load()
+             ^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/torch/serialization.py", line 2111, in find_class
+    return super().find_class(mod_name, name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'train'
